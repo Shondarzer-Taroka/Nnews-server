@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt';
-
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
@@ -60,23 +60,44 @@ export const login = (req: Request, res: Response) => {
 
 
 
-import {  NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
+
+export const logout = (req: Request, res: Response) => {
+  res
+    .clearCookie('accessToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    })
+    .clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    })
+    .status(200)
+    .json({ message: 'Logged out successfully' });
+};
+
+
+
+
+
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
 export const logInUser = (req: Request, res: Response) => {
   console.log(req.cookies);
- const token = req.cookies.refreshToken;
+  const token = req.cookies.refreshToken;
 
- 
+
 
   if (!token) {
-    return res.status(401).json({ message: 'কুকি পাওয়া যায়নি' });
+    res.status(401).json({ message: 'কুকি পাওয়া যায়নি' });
+    return
   }
 
   try {
-    const decoded = jwt.verify(token,ACCESS_TOKEN_SECRET );
+    const decoded = jwt.verify(token, REFRESH_TOKEN_SECRET);
     res.json({ user: decoded });
+    return 
   } catch (error) {
     console.error(error);
     res.status(401).json({ message: 'অবৈধ টোকেন' });
