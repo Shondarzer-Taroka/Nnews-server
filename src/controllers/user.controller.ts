@@ -41,10 +41,16 @@ export const login = (req: Request, res: Response) => {
       maxAge: 15 * 60 * 1000,
     })
     .cookie('refreshToken', refreshToken, {
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production',
+      // sameSite: 'strict',
+      // maxAge: 7 * 24 * 60 * 60 * 1000,
+
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === 'production', // true in production only
+      sameSite: 'lax',
+      path: '/', // important so it's sent to all routes
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
     .status(200)
     .json({
@@ -97,7 +103,7 @@ export const logInUser = (req: Request, res: Response) => {
   try {
     const decoded = jwt.verify(token, REFRESH_TOKEN_SECRET);
     res.json({ user: decoded });
-    return 
+    return
   } catch (error) {
     console.error(error);
     res.status(401).json({ message: 'অবৈধ টোকেন' });
