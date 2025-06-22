@@ -3,11 +3,17 @@ import session from 'express-session';
 import passport from './config/passport';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route';
-
+import dotenv from 'dotenv';
+import cors from 'cors';
+dotenv.config()
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:3000', // frontend URL
+  credentials: true
+}));
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard cat',

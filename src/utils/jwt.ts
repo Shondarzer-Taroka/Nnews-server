@@ -1,6 +1,7 @@
 // src/utils/jwt.ts
 import jwt from 'jsonwebtoken';
 
+
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
 
@@ -25,3 +26,4 @@ export const verifyAccessToken = (token: string) => {
 export const verifyRefreshToken = (token: string) => {
   return jwt.verify(token, REFRESH_TOKEN_SECRET);
 };
+

@@ -3,11 +3,15 @@ import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt';
 
+
 const prisma = new PrismaClient();
 
 export const register = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     const { password, ...rest } = req.body;
+
+
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
@@ -23,6 +27,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = (req: Request, res: Response) => {
   const user = req.user as any;
+  console.log(user);
 
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
@@ -52,3 +57,28 @@ export const login = (req: Request, res: Response) => {
       },
     });
 };
+
+
+
+import {  NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
+export const logInUser = (req: Request, res: Response) => {
+  console.log(req.cookies);
+ const token = req.cookies.refreshToken;
+
+ 
+
+  if (!token) {
+    return res.status(401).json({ message: 'কুকি পাওয়া যায়নি' });
+  }
+
+  try {
+    const decoded = jwt.verify(token,ACCESS_TOKEN_SECRET );
+    res.json({ user: decoded });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ message: 'অবৈধ টোকেন' });
+  }
+}
