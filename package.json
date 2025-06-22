@@ -11,9 +11,22 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/express-session": "^1.18.2",
     "@types/node": "^24.0.3",
+    "@types/passport": "^1.0.17",
+    "@types/passport-local": "^1.0.38",
     "prisma": "^6.10.1",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.10.1",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   }
 }
