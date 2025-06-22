@@ -1,3 +1,5 @@
+// /// src/controllers/user.controller.ts
+
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
