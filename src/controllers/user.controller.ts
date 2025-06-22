@@ -1,8 +1,7 @@
-// /// src/controllers/user.controller.ts
-
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
+import { generateAccessToken, generateRefreshToken } from '../utils/jwt';
 
 const prisma = new PrismaClient();
 
@@ -23,5 +22,33 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Login successful', user: req.user });
+  const user = req.user as any;
+
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+
+  // Set secure HTTP-only cookies
+  res
+    .cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000,
+    })
+    .cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
+    .status(200)
+    .json({
+      message: 'Login successful',
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
+    });
 };
