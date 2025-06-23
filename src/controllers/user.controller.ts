@@ -90,7 +90,7 @@ export const logout = (req: Request, res: Response) => {
 
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
 export const logInUser = (req: Request, res: Response) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   const token = req.cookies.refreshToken;
 
 

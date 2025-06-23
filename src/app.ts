@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import newsRoutes from './routes/news.route';
 dotenv.config()
 const app = express();
 
@@ -29,5 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/users', userRoutes);
+app.use('/api/news', newsRoutes);
+
 
 export default app;
