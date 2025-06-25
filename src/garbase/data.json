@@ -1,0 +1,596 @@
+[
+  {
+    "id": "d4e88203-9e56-43d2-9a4f-5a62ef0863a1",
+    "title": "বাংলা সাহিত্যের প্রথম নারী কবি চন্দ্রাবতীর স্মৃতিধন্য মন্দির-বাড়ি",
+    "content": "ঈদের ছুটিতে সাহিত্যনুরাগী লোকজনের পদচারণায় মুখর হয়ে উঠেছিল বাংলা সাহিত্যের প্রথম নারী কবি চন্দ্রাবতীর বাড়ি ও শিবমন্দির অঙ্গন...",
+    "category": "সাহিত্য",
+    "subCategory": "জাতীয়",
+    "imageSource": "যুগান্তর",
+    "imageTitle": "কিশোরগঞ্জে চন্দাবতী মন্দির",
+    "keywords": ["চন্দ্রাবতীর মন্দির", "কবি চন্দ্রাবতী"],
+    "subKeywords": ["সাহিত্যনুরাগী"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1750740552/bilpjd2apg7gnk97choi.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+    "title": "ঢাকায় বন্যার পরিস্থিতি আরও অবনতি",
+    "content": "গত ২৪ ঘণ্টায় টানা বর্ষণে ঢাকা শহরের বিভিন্ন এলাকায় পানি জমে যাওয়ায় জনজীবন বিপর্যস্ত হয়ে পড়েছে...",
+    "category": "সারাদেশ",
+    "subCategory": "প্রাকৃতিক দুর্যোগ",
+    "imageSource": "প্রথম আলো",
+    "imageTitle": "বন্যাকবলিত ঢাকার একটি সড়ক",
+    "keywords": ["ঢাকা বন্যা", "জলাবদ্ধতা"],
+    "subKeywords": ["জরুরি অবস্থা"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567890/flood_dhaka.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+    "title": "জাতীয় ক্রিকেট দলের নতুন কোচ ঘোষণা",
+    "content": "বাংলাদেশ ক্রিকেট বোর্ড আজ এক প্রেস বিজ্ঞপ্তিতে জাতীয় ক্রিকেট দলের নতুন প্রধান কোচ হিসেবে অস্ট্রেলিয়ার ডেভিড মোয়েসকে নিয়োগ দিয়েছে...",
+    "category": "জাতীয়",
+    "subCategory": "খেলাধুলা",
+    "imageSource": "ক্রিকেট বাংলাদেশ",
+    "imageTitle": "নতুন কোচ ডেভিড মোয়েস",
+    "keywords": ["বাংলাদেশ ক্রিকেট", "নতুন কোচ"],
+    "subKeywords": ["বিসিবি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567891/cricket_coach.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "c3d4e5f6-g7h8-9012-i3j4-k5l6m7n8o9p0",
+    "title": "ঢাকা মেট্রোরেলের দ্বিতীয় ধাপ উদ্বোধন আজ",
+    "content": "প্রধানমন্ত্রী শেখ হাসিনা আজ ঢাকা মেট্রোরেলের মতিঝিল থেকে কমলাপুর পর্যন্ত সম্প্রসারিত রুটের উদ্বোধন করবেন...",
+    "category": "জাতীয়",
+    "subCategory": "পরিবহন",
+    "imageSource": "সমকাল",
+    "imageTitle": "মেট্রোরেলের নতুন রুট",
+    "keywords": ["ঢাকা মেট্রোরেল", "মতিঝিল-কমলাপুর"],
+    "subKeywords": ["জাপানি সহায়তা"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567892/metro_rail.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "d4e5f6g7-h8i9-0123-j4k5-l6m7n8o9p0q1",
+    "title": "চট্টগ্রামে শিল্পাঞ্চল স্থাপনে চীনের বিনিয়োগ",
+    "content": "চট্টগ্রামের আনোয়ারা উপজেলায় বিশেষ অর্থনৈতিক অঞ্চল স্থাপনে ২ বিলিয়ন ডলার বিনিয়োগ করতে যাচ্ছে চীন...",
+    "category": "জাতীয়",
+    "subCategory": "অর্থনীতি",
+    "imageSource": "বণিক বার্তা",
+    "imageTitle": "চীনা প্রতিনিধিদলের বাংলাদেশ সফর",
+    "keywords": ["চীনা বিনিয়োগ", "বিশেষ অর্থনৈতিক অঞ্চল"],
+    "subKeywords": ["চট্টগ্রাম উন্নয়ন"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567893/chinese_investment.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+    "title": "নতুন শিক্ষাক্রম বাস্তবায়নে চ্যালেঞ্জ",
+    "content": "জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (এনসিটিবি) কর্তৃক প্রণীত নতুন শিক্ষাক্রম বাস্তবায়নে বিভিন্ন চ্যালেঞ্জের মুখোমুখি হচ্ছেন শিক্ষকরা...",
+    "category": "জাতীয়",
+    "subCategory": "শিক্ষা",
+    "imageSource": "শিক্ষা সংবাদ",
+    "imageTitle": "নতুন শিক্ষাক্রমের বই",
+    "keywords": ["নতুন শিক্ষাক্রম", "এনসিটিবি"],
+    "subKeywords": ["শিক্ষা সংস্কার"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567894/new_curriculum.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+    "title": "রাজশাহীতে আমের বাম্পার ফলন",
+    "content": "রাজশাহী অঞ্চলে এবার আমের বাম্পার ফলন হয়েছে। আবহাওয়া অনুকূলে থাকায় গত বছরের তুলনায় ২০% বেশি আম উৎপাদন হয়েছে বলে জানিয়েছে কৃষি বিভাগ...",
+    "category": "সারাদেশ",
+    "subCategory": "কৃষি",
+    "imageSource": "কৃষি প্রতিদিন",
+    "imageTitle": "রাজশাহীর আমবাগান",
+    "keywords": ["রাজশাহী আম", "আমের ফলন"],
+    "subKeywords": ["কৃষি উন্নয়ন"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567895/mango_harvest.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+    "title": "সিলেটে পর্যটন মৌসুমে ভ্রমণকারীদের ভিড়",
+    "content": "গ্রীষ্মের ছুটিতে সিলেটের বিভিন্ন পর্যটন স্পটে ভ্রমণকারীদের ব্যাপক ভিড় লক্ষ্য করা যাচ্ছে...",
+    "category": "সারাদেশ",
+    "subCategory": "পর্যটন",
+    "imageSource": "সিলেট প্রতিদিন",
+    "imageTitle": "জাফলং এর দৃশ্য",
+    "keywords": ["সিলেট পর্যটন", "জাফলং"],
+    "subKeywords": ["গ্রীষ্মের ছুটি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567896/sylhet_tourism.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+    "title": "বরিশালে নদী ভাঙনে শতাধিক পরিবার গৃহহারা",
+    "content": "বরিশালের মেহেন্দিগঞ্জ উপজেলায় কীর্তনখোলা নদীর ভাঙনে শতাধিক পরিবার গৃহহারা হয়েছে...",
+    "category": "সারাদেশ",
+    "subCategory": "প্রাকৃতিক দুর্যোগ",
+    "imageSource": "দৈনিক ইত্তেফাক",
+    "imageTitle": "নদী ভাঙনের শিকার পরিবার",
+    "keywords": ["নদী ভাঙন", "বরিশাল"],
+    "subKeywords": ["জরুরি ত্রাণ"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567897/river_erosion.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+    "title": "ঢাকায় আন্তর্জাতিক বইমেলা শুরু",
+    "content": "ঢাকার বঙ্গবন্ধু আন্তর্জাতিক সম্মেলন কেন্দ্রে (বিআইসিসি) শুরু হয়েছে মাসব্যাপী আন্তর্জাতিক বইমেলা...",
+    "category": "সারাদেশ",
+    "subCategory": "সংস্কৃতি",
+    "imageSource": "সংস্কৃতি ডেস্ক",
+    "imageTitle": "বইমেলার উদ্বোধনী অনুষ্ঠান",
+    "keywords": ["আন্তর্জাতিক বইমেলা", "ঢাকা"],
+    "subKeywords": ["সাহিত্য উৎসব"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567898/book_fair.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+    "title": "কক্সবাজারে সমুদ্র সৈকতে পর্যটকদের ভিড়",
+    "content": "গ্রীষ্মের ছুটিতে কক্সবাজার সমুদ্র সৈকতে পর্যটকদের ব্যাপক ভিড় লক্ষ্য করা যাচ্ছে...",
+    "category": "সারাদেশ",
+    "subCategory": "পর্যটন",
+    "imageSource": "কক্সবাজার নিউজ",
+    "imageTitle": "কক্সবাজার সমুদ্র সৈকত",
+    "keywords": ["কক্সবাজার", "পর্যটন মৌসুম"],
+    "subKeywords": ["গ্রীষ্মের ছুটি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567899/cox_bazar.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+    "title": "মিরপুরে নতুন শপিং মল উদ্বোধন",
+    "content": "রাজধানীর মিরপুরে আজ আনুষ্ঠানিকভাবে উদ্বোধন করা হয়েছে নতুন শপিং মল 'মেগা মার্ট'...",
+    "category": "সারাদেশ",
+    "subCategory": "বাণিজ্য",
+    "imageSource": "বাণিজ্য প্রতিদিন",
+    "imageTitle": "নতুন শপিং মলের উদ্বোধন",
+    "keywords": ["মিরপুর", "শপিং মল"],
+    "subKeywords": ["খুচরা বাণিজ্য"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567800/shopping_mall.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+    "title": "ঢাকায় আন্তর্জাতিক চলচ্চিত্র উৎসব শুরু",
+    "content": "ঢাকার শিল্পকলা একাডেমিতে শুরু হয়েছে ১০ দিনব্যাপী আন্তর্জাতিক চলচ্চিত্র উৎসব...",
+    "category": "বিনোদন",
+    "subCategory": "চলচ্চিত্র",
+    "imageSource": "চলচ্চিত্র ডেস্ক",
+    "imageTitle": "উৎসবের উদ্বোধনী অনুষ্ঠান",
+    "keywords": ["চলচ্চিত্র উৎসব", "শিল্পকলা একাডেমি"],
+    "subKeywords": ["আন্তর্জাতিক অংশগ্রহণ"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567801/film_festival.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "m3n4o5p6-q7r8-9012-s3t4-u5v6w7x8y9z0",
+    "title": "জনপ্রিয় গায়ক জেমসের নতুন অ্যালবাম",
+    "content": "জনপ্রিয় গায়ক জেমস আজ তার নতুন অ্যালবাম 'মনের গহিনে' প্রকাশ করেছেন...",
+    "category": "বিনোদন",
+    "subCategory": "সংগীত",
+    "imageSource": "সংগীত প্রতিদিন",
+    "imageTitle": "গায়ক জেমস",
+    "keywords": ["জেমস", "নতুন অ্যালবাম"],
+    "subKeywords": ["বাংলা গান"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567802/james_album.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "n4o5p6q7-r8s9-0123-t4u5-v6w7x8y9z0a1",
+    "title": "টেলিভিশন ধারাবাহিক 'মধুমতি'র শেষ পর্ব আজ",
+    "content": "দর্শকপ্রিয় ধারাবাহিক নাটক 'মধুমতি'র শেষ পর্ব আজ রাত ৯টায় বাংলাদেশ টেলিভিশনে প্রচারিত হবে...",
+    "category": "বিনোদন",
+    "subCategory": "টেলিভিশন",
+    "imageSource": "টিভি গাইড",
+    "imageTitle": "মধুমতি নাটকের দৃশ্য",
+    "keywords": ["মধুমতি", "বিটিভি"],
+    "subKeywords": ["নাটকের শেষ পর্ব"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567803/tv_serial.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "o5p6q7r8-s9t0-1234-u5v6-w7x8y9z0a1b2",
+    "title": "ঢাকায় আন্তর্জাতিক কমিক কনভেনশন",
+    "content": "ঢাকার বঙ্গবন্ধু আন্তর্জাতিক সম্মেলন কেন্দ্রে শুরু হয়েছে তিন দিনব্যাপী আন্তর্জাতিক কমিক কনভেনশন...",
+    "category": "বিনোদন",
+    "subCategory": "অন্যান্য",
+    "imageSource": "বিনোদন ডেস্ক",
+    "imageTitle": "কমিক কনভেনশনের দৃশ্য",
+    "keywords": ["কমিক কনভেনশন", "ঢাকা"],
+    "subKeywords": ["কার্টুনিস্ট সম্মেলন"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567804/comic_con.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "p6q7r8s9-t0u1-2345-v6w7-x8y9z0a1b2c3",
+    "title": "নতুন চলচ্চিত্র 'প্রেম কী'র ট্রেলার মুক্তি",
+    "content": "আসন্ন ঈদুল ফিতরে মুক্তি পাওয়া চলচ্চিত্র 'প্রেম কী'র অফিসিয়াল ট্রেলার আজ মুক্তি পেয়েছে...",
+    "category": "বিনোদন",
+    "subCategory": "চলচ্চিত্র",
+    "imageSource": "চলচ্চিত্র ডেস্ক",
+    "imageTitle": "প্রেম কী মুভি পোস্টার",
+    "keywords": ["প্রেম কী", "ঈদুল ফিতর"],
+    "subKeywords": ["বাংলা সিনেমা"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567805/movie_trailer.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "q7r8s9t0-u1v2-3456-w7x8-y9z0a1b2c3d4",
+    "title": "স্ট্যান্ডআপ কমেডি শো 'হাসতে হাসতে'র বিশেষ পর্ব",
+    "content": "জনপ্রিয় স্ট্যান্ডআপ কমেডি শো 'হাসতে হাসতে'র বিশেষ ঈদ পর্ব আগামীকাল রাত ১০টায় মৌসুমী টিভিতে প্রচারিত হবে...",
+    "category": "বিনোদন",
+    "subCategory": "টেলিভিশন",
+    "imageSource": "কমেডি কর্নার",
+    "imageTitle": "স্ট্যান্ডআপ কমেডিয়ানরা",
+    "keywords": ["হাসতে হাসতে", "মৌসুমী টিভি"],
+    "subKeywords": ["ঈদ বিশেষ"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567806/standup_comedy.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "r8s9t0u1-v2w3-4567-x8y9-z0a1b2c3d4e5",
+    "title": "রবীন্দ্রজয়ন্তী উপলক্ষে বিশেষ সঙ্গীতানুষ্ঠান",
+    "content": "রবীন্দ্রজয়ন্তী উপলক্ষে বাংলাদেশ শিল্পকলা একাডেমিতে আজ সন্ধ্যায় বিশেষ সঙ্গীতানুষ্ঠানের আয়োজন করা হয়েছে...",
+    "category": "বিনোদন",
+    "subCategory": "সংগীত",
+    "imageSource": "সংস্কৃতি ডেস্ক",
+    "imageTitle": "রবীন্দ্র সঙ্গীত শিল্পীরা",
+    "keywords": ["রবীন্দ্রজয়ন্তী", "শিল্পকলা একাডেমি"],
+    "subKeywords": ["রবীন্দ্র সঙ্গীত"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567807/rabindra_jayanti.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "s9t0u1v2-w3x4-5678-y9z0-a1b2c3d4e5f6",
+    "title": "যুক্তরাষ্ট্র-চীন বাণিজ্য যুদ্ধে নতুন মোড়",
+    "content": "যুক্তরাষ্ট্র ও চীনের মধ্যকার চলমান বাণিজ্য যুদ্ধে নতুন মোড় নিতে যাচ্ছে...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "অর্থনীতি",
+    "imageSource": "বিশ্ব অর্থনীতি",
+    "imageTitle": "যুক্তরাষ্ট্র-চীন বৈঠক",
+    "keywords": ["বাণিজ্য যুদ্ধ", "যুক্তরাষ্ট্র-চীন"],
+    "subKeywords": ["শুল্ক বৃদ্ধি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567808/trade_war.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "t0u1v2w3-x4y5-6789-z0a1-b2c3d4e5f6g7",
+    "title": "ইউক্রেন যুদ্ধে জাতিসংঘের নতুন প্রস্তাব",
+    "content": "ইউক্রেন যুদ্ধবিরতি ও মানবিক সহায়তা নিয়ে জাতিসংঘ নিরাপত্তা পরিষদে নতুন প্রস্তাব উত্থাপন করা হয়েছে...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "রাজনীতি",
+    "imageSource": "আন্তর্জাতিক ডেস্ক",
+    "imageTitle": "জাতিসংঘ নিরাপত্তা পরিষদের বৈঠক",
+    "keywords": ["ইউক্রেন যুদ্ধ", "জাতিসংঘ"],
+    "subKeywords": ["যুদ্ধবিরতি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567809/un_meeting.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "u1v2w3x4-y5z6-7890-a1b2-c3d4e5f6g7h8",
+    "title": "জাপানে নতুন প্রযুক্তি প্রদর্শনী শুরু",
+    "content": "টোকিওতে শুরু হয়েছে বিশ্বের বৃহত্তম প্রযুক্তি প্রদর্শনী 'সিইএস এশিয়া'...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "প্রযুক্তি",
+    "imageSource": "প্রযুক্তি বিশ্ব",
+    "imageTitle": "প্রদর্শনীতে নতুন গ্যাজেট",
+    "keywords": ["সিইএস এশিয়া", "টোকিও"],
+    "subKeywords": ["প্রযুক্তি প্রদর্শনী"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567810/tech_expo.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "v2w3x4y5-z6a7-8901-b2c3-d4e5f6g7h8i9",
+    "title": "মধ্যপ্রাচ্যে শান্তি আলোচনা জোরদার",
+    "content": "মধ্যপ্রাচ্য সংকট সমাধানে কাতারের মধ্যস্থতায় ইসরাইল ও ফিলিস্তিনের মধ্যে শান্তি আলোচনা জোরদার হচ্ছে...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "রাজনীতি",
+    "imageSource": "মধ্যপ্রাচ্য ডেস্ক",
+    "imageTitle": "শান্তি আলোচনার দৃশ্য",
+    "keywords": ["মধ্যপ্রাচ্য শান্তি", "কাতার"],
+    "subKeywords": ["ইসরাইল-ফিলিস্তিন"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567811/peace_talk.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "w3x4y5z6-a7b8-9012-c3d4-e5f6g7h8i9j0",
+    "title": "জার্মানিতে নতুন অভিবাসন নীতি ঘোষণা",
+    "content": "জার্মান সরকার দক্ষ শ্রমিকদের জন্য নতুন অভিবাসন নীতি ঘোষণা করেছে...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "অভিবাসন",
+    "imageSource": "ইউরোপ ডেস্ক",
+    "imageTitle": "জার্মান চ্যান্সেলর",
+    "keywords": ["জার্মানি", "অভিবাসন নীতি"],
+    "subKeywords": ["দক্ষ শ্রমিক"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567812/germany_immigration.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "x4y5z6a7-b8c9-0123-d4e5-f6g7h8i9j0k1",
+    "title": "অস্ট্রেলিয়ায় বন্যায় শতাধিক বাড়ি ডুবে গেছে",
+    "content": "অস্ট্রেলিয়ার কুইন্সল্যান্ড অঙ্গরাজ্যে ভারী বর্ষণ ও বন্যায় শতাধিক বাড়ি ডুবে গেছে...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "প্রাকৃতিক দুর্যোগ",
+    "imageSource": "আন্তর্জাতিক ডেস্ক",
+    "imageTitle": "অস্ট্রেলিয়ার বন্যা",
+    "keywords": ["অস্ট্রেলিয়া বন্যা", "কুইন্সল্যান্ড"],
+    "subKeywords": ["জরুরি অবস্থা"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567813/australia_flood.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "y5z6a7b8-c9d0-1234-e5f6-g7h8i9j0k1l2",
+    "title": "ভারতীয় চলচ্চিত্র 'RRR' অস্কারে সেরা বিদেশি ভাষার চলচ্চিত্র",
+    "content": "ভারতীয় চলচ্চিত্র 'RRR' ৯৫তম অস্কার পুরস্কারে সেরা বিদেশি ভাষার চলচ্চিত্রের পুরস্কার জিতেছে...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "চলচ্চিত্র",
+    "imageSource": "বিনোদন ডেস্ক",
+    "imageTitle": "অস্কার জয়ী দল",
+    "keywords": ["RRR", "অস্কার"],
+    "subKeywords": ["ভারতীয় সিনেমা"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567814/oscar_movie.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "z6a7b8c9-d0e1-2345-f6g7-h8i9j0k1l2m3",
+    "title": "খুলনায় নতুন শিল্পনগরী স্থাপনের ঘোষণা",
+    "content": "খুলনার দাকোপে নতুন শিল্পনগরী স্থাপনের ঘোষণা দিয়েছেন প্রধানমন্ত্রী...",
+    "category": "সারাদেশ",
+    "subCategory": "শিল্প",
+    "imageSource": "খুলনা সংবাদ",
+    "imageTitle": "শিল্পনগরীর মডেল",
+    "keywords": ["খুলনা", "শিল্পনগরী"],
+    "subKeywords": ["দাকোপ"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567815/industrial_city.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "a7b8c9d0-e1f2-3456-g7h8-i9j0k1l2m3n4",
+    "title": "রংপুরে কৃষি মেলার উদ্বোধন",
+    "content": "রংপুরে কৃষি প্রযুক্তি ও পণ্য প্রদর্শনীর আয়োজন করা হয়েছে...",
+    "category": "সারাদেশ",
+    "subCategory": "কৃষি",
+    "imageSource": "কৃষি প্রতিদিন",
+    "imageTitle": "কৃষি মেলার দৃশ্য",
+    "keywords": ["রংপুর", "কৃষি মেলা"],
+    "subKeywords": ["কৃষি প্রযুক্তি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567816/agriculture_fair.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "b8c9d0e1-f2g3-4567-h8i9-j0k1l2m3n4o5",
+    "title": "পাবনায় ঐতিহাসিক চন্দ্রাবতী মন্দির সংস্কারের দাবি",
+    "content": "পাবনার ঈশ্বরদীতে অবস্থিত ঐতিহাসিক চন্দ্রাবতী মন্দির সংস্কারের দাবি জানিয়েছে স্থানীয়রা...",
+    "category": "সারাদেশ",
+    "subCategory": "ঐতিহ্য",
+    "imageSource": "ঐতিহ্য ডেস্ক",
+    "imageTitle": "চন্দ্রাবতী মন্দির",
+    "keywords": ["পাবনা", "ঐতিহাসিক মন্দির"],
+    "subKeywords": ["সংস্কারের দাবি"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567817/historic_temple.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "c9d0e1f2-g3h4-5678-i9j0-k1l2m3n4o5p6",
+    "title": "ময়মনসিংহে সাহিত্য সম্মেলন",
+    "content": "ময়মনসিংহে দুই দিনব্যাপী সাহিত্য সম্মেলনের আয়োজন করা হয়েছে...",
+    "category": "সারাদেশ",
+    "subCategory": "সাহিত্য",
+    "imageSource": "সাহিত্য ডেস্ক",
+    "imageTitle": "সম্মেলনের উদ্বোধন",
+    "keywords": ["ময়মনসিংহ", "সাহিত্য সম্মেলন"],
+    "subKeywords": ["সাহিত্যিকদের সমাবেশ"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567818/literature_conference.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "d0e1f2g3-h4i5-6789-j0k1-l2m3n4o5p6q7",
+    "title": "বগুড়ায় প্রত্নতাত্ত্বিক নিদর্শনের সন্ধান",
+    "content": "বগুড়ার মহাস্থানগড়ে নতুন প্রত্নতাত্ত্বিক নিদর্শনের সন্ধান পাওয়া গেছে...",
+    "category": "সারাদেশ",
+    "subCategory": "ঐতিহ্য",
+    "imageSource": "প্রত্নতত্ত্ব ডেস্ক",
+    "imageTitle": "প্রাপ্ত নিদর্শন",
+    "keywords": ["বগুড়া", "মহাস্থানগড়"],
+    "subKeywords": ["প্রত্নতাত্ত্বিক আবিষ্কার"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567819/archaeological_find.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "e1f2g3h4-i5j6-7890-k1l2-m3n4o5p6q7r8",
+    "title": "ঢাকায় আন্তর্জাতিক ফ্যাশন উৎসব",
+    "content": "ঢাকায় শুরু হয়েছে তিন দিনব্যাপী আন্তর্জাতিক ফ্যাশন উৎসব...",
+    "category": "বিনোদন",
+    "subCategory": "ফ্যাশন",
+    "imageSource": "ফ্যাশন ডেস্ক",
+    "imageTitle": "ফ্যাশন শো",
+    "keywords": ["ঢাকা", "ফ্যাশন উৎসব"],
+    "subKeywords": ["আন্তর্জাতিক অংশগ্রহণ"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567820/fashion_show.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  },
+  {
+    "id": "f2g3h4i5-j6k7-8901-l2m3-n4o5p6q7r8s9",
+    "title": "ফ্রান্সে বাংলাদেশী চলচ্চিত্র উৎসব",
+    "content": "প্যারিসে শুরু হয়েছে বাংলাদেশী চলচ্চিত্র উৎসব...",
+    "category": "আন্তর্জাতিক",
+    "subCategory": "চলচ্চিত্র",
+    "imageSource": "চলচ্চিত্র ডেস্ক",
+    "imageTitle": "উৎসবের উদ্বোধন",
+    "keywords": ["প্যারিস", "বাংলাদেশী চলচ্চিত্র"],
+    "subKeywords": ["সাংস্কৃতিক বিনিময়"],
+    "imageUrl": "https://res.cloudinary.com/dw72swggv/image/upload/v1234567821/bangla_film_festival.jpg",
+    "authorId": "d18d9438-fccf-4a71-b553-eba1c4a3cfd8",
+    "author": {
+      "name": "Sakib Al Hasan",
+      "email": "sakib@shishir.com",
+      "image": "https://res.cloudinary.com/dw72swggv/image/upload/v1750680662/ycao4490t9vrsoq1ajsi.png"
+    }
+  }
+]

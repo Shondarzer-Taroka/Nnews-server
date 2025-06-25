@@ -1,10 +1,12 @@
 import express from 'express';
-import { createNews, deleteNews, getNews } from '../controllers/news.controller';
+import { addManyData, createNews, deleteNews, getHomePageNews, getNews } from '../controllers/news.controller';
 
 
 const router = express.Router();
 
 router.post('/create', createNews);
+router.post('/addManyData',addManyData);
+router.get('/homepagenews',getHomePageNews);
 router.get('/getNews', getNews);
 router.delete('/deleteNews/:id',deleteNews)
 

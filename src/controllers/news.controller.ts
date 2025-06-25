@@ -248,3 +248,131 @@ export const updateNews = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
+
+
+export const addManyData = async (req: Request, res: Response):Promise<any> => {
+  try {
+    const newsItems = req.body;
+
+    if (!Array.isArray(newsItems)) {
+      return res.status(400).json({ message: 'Request body must be an array' });
+    }
+
+    // Ensure no relation objects like `author` are passed
+    const result = await prisma.news.createMany({
+      data: newsItems.map(({ author, ...rest }) => rest), // safely exclude `author` if mistakenly present
+      skipDuplicates: true,
+    });
+
+    res.status(201).json({ message: 'Inserted successfully', insertedCount: result.count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};
+
+
+
+
+export const getHomePageNews = async (req: Request, res: Response) => {
+  try {
+    // Special news (latest single news)
+    const specialNews = await prisma.news.findFirst({
+      orderBy: { createdAt: 'desc' }
+    });
+
+    // National News (latest 5)
+    const nationalNews = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'জাতীয়' },
+          { subCategory: 'জাতীয়' },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+    });
+
+    // Whole Country (সারাদেশ) - latest 9
+    const wholeCountry = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'সারাদেশ' },
+          { subCategory: 'সারাদেশ' },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 9,
+    });
+
+    // Political News (রাজনীতি) - latest 4
+    const politicalNews = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'রাজনীতি' },
+          { subCategory: 'রাজনীতি' },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 4,
+    });
+
+    // International News (আন্তর্জাতিক) - latest 6
+    const internationalNews = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'আন্তর্জাতিক' },
+          { subCategory: 'আন্তর্জাতিক' },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 6,
+    });
+
+    // Entertainment News (বিনোদন) - latest 7
+    const entertainment = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'বিনোদন' },
+          { subCategory: 'বিনোদন' },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 7,
+    });
+
+    // Encouraging (উৎসাহ) - all matching
+    const encouraging = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'উৎসাহ' },
+          { subCategory: 'উৎসাহ' },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // Final response
+    res.status(200).json({
+      specialNews,
+      nationalNews,
+      wholeCountry,
+      politicalNews,
+      internationalNews,
+      entertainment,
+      encouraging,
+    });
+  } catch (error) {
+    console.error('Failed to fetch homepage news:', error);
+    res.status(500).json({
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+
+
+export const
