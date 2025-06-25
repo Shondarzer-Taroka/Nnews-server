@@ -20,25 +20,25 @@ interface NewsData {
   };
 }
 
-export const createNews = async (req: Request, res: Response):Promise<any> => {
-    console.log(req.body);
-    
+export const createNews = async (req: Request, res: Response): Promise<any> => {
+  console.log(req.body);
+
   try {
-    const { 
-      title, 
-      content, 
-      category, 
-      subCategory, 
-      keywords, 
-      subKeywords, 
+    const {
+      title,
+      content,
+      category,
+      subCategory,
+      keywords,
+      subKeywords,
       imageUrl,
       imageSource,
       imageTitle,
-      author 
+      author
     }: NewsData = req.body;
 
     console.log(req.body);
-    
+
 
     // Validate required fields
     if (!title || !content || !category || !subCategory || !author?.email) {
@@ -79,9 +79,9 @@ export const createNews = async (req: Request, res: Response):Promise<any> => {
       }
     });
 
-    return res.status(201).json({ 
+    return res.status(201).json({
       message: 'News created successfully',
-      news 
+      news
     });
 
   } catch (error) {
@@ -90,7 +90,7 @@ export const createNews = async (req: Request, res: Response):Promise<any> => {
   }
 };
 
-export const getNews = async (req: Request, res: Response):Promise<any> => {
+export const getNews = async (req: Request, res: Response): Promise<any> => {
   try {
     const news = await prisma.news.findMany({
       include: {
@@ -115,7 +115,7 @@ export const getNews = async (req: Request, res: Response):Promise<any> => {
   }
 };
 
-export const getSingleNews = async (req: Request, res: Response):Promise<any>=> {
+export const getSingleNews = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -148,7 +148,7 @@ export const getSingleNews = async (req: Request, res: Response):Promise<any>=> 
   }
 };
 
-export const deleteNews = async (req: Request, res: Response) :Promise<any>=> {
+export const deleteNews = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -157,8 +157,8 @@ export const deleteNews = async (req: Request, res: Response) :Promise<any>=> {
     }
 
     // Check if news exists
-    const existingNews = await prisma.news.findUnique({ 
-      where: { id } 
+    const existingNews = await prisma.news.findUnique({
+      where: { id }
     });
 
     if (!existingNews) {
@@ -166,11 +166,11 @@ export const deleteNews = async (req: Request, res: Response) :Promise<any>=> {
     }
 
     // Delete the news
-    const deletedNews = await prisma.news.delete({ 
-      where: { id } 
+    const deletedNews = await prisma.news.delete({
+      where: { id }
     });
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       message: 'News deleted successfully',
       news: deletedNews
     });
@@ -179,7 +179,7 @@ export const deleteNews = async (req: Request, res: Response) :Promise<any>=> {
     if (error.code === 'P2025') {
       return res.status(404).json({ error: 'News not found' });
     }
-    
+
     console.error('Error deleting news:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
@@ -188,14 +188,14 @@ export const deleteNews = async (req: Request, res: Response) :Promise<any>=> {
 export const updateNews = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { 
-      title, 
-      content, 
-      category, 
-      subCategory, 
-      keywords, 
-      subKeywords, 
-      imageUrl 
+    const {
+      title,
+      content,
+      category,
+      subCategory,
+      keywords,
+      subKeywords,
+      imageUrl
     } = req.body;
 
     if (!id) {
@@ -203,8 +203,8 @@ export const updateNews = async (req: Request, res: Response) => {
     }
 
     // Check if news exists
-    const existingNews = await prisma.news.findUnique({ 
-      where: { id } 
+    const existingNews = await prisma.news.findUnique({
+      where: { id }
     });
 
     if (!existingNews) {
@@ -234,7 +234,7 @@ export const updateNews = async (req: Request, res: Response) => {
       }
     });
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       message: 'News updated successfully',
       news: updatedNews
     });
@@ -243,7 +243,7 @@ export const updateNews = async (req: Request, res: Response) => {
     if (error.code === 'P2025') {
       return res.status(404).json({ error: 'News not found' });
     }
-    
+
     console.error('Error updating news:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
@@ -252,7 +252,7 @@ export const updateNews = async (req: Request, res: Response) => {
 
 
 
-export const addManyData = async (req: Request, res: Response):Promise<any> => {
+export const addManyData = async (req: Request, res: Response): Promise<any> => {
   try {
     const newsItems = req.body;
 
@@ -272,6 +272,27 @@ export const addManyData = async (req: Request, res: Response):Promise<any> => {
     res.status(500).json({ message: 'Internal server error', error });
   }
 };
+
+
+
+
+
+
+
+export const deleteAllNews = async (req: Request, res: Response): Promise<any> => {
+  try {
+    await prisma.news.deleteMany(); // ⚠️ Deletes all records
+
+    res.status(200).json({ message: 'All news entries deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting news:', error);
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};
+
+
+
+
 
 
 
@@ -375,4 +396,28 @@ export const getHomePageNews = async (req: Request, res: Response) => {
 
 
 
-export const
+export const getTitleForDescription = async (req: Request, res: Response) => {
+  try {
+    const category = req.params.category
+    const news = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: category },
+          { subCategory: category },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      take:7
+    })
+
+    res.status(200).json({
+      categorizedNews: news
+    })
+  } catch (error) {
+    console.error('Failed to fetch homepage news:', error);
+    res.status(500).json({
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : error,
+    });
+  }
+}
