@@ -10,6 +10,7 @@ router.delete('/deleteAllNews',deleteAllNews);
 router.get('/homepagenews',getHomePageNews);
 router.get('/getSingleNews/:id',getSingleNews)
 router.get('/getTitleForDescription/:category',getTitleForDescription)
+
 router.get('/getNews', getNews);
 router.delete('/deleteNews/:id',deleteNews)
 
