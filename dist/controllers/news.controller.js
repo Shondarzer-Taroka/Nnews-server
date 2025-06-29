@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTitleForDescription = exports.getHomePageNews = exports.deleteAllNews = exports.addManyData = exports.updateNews = exports.deleteNews = exports.getSingleNews = exports.getNews = exports.createNews = void 0;
+exports.getCategorizedNews = exports.getTitleForDescription = exports.getHomePageNews = exports.deleteAllNews = exports.addManyData = exports.updateNews = exports.deleteNews = exports.getSingleNews = exports.getNews = exports.createNews = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createNews = async (req, res) => {
-    console.log(req.body);
+    console.log(req.body, 'news creatae');
     try {
         const { title, content, category, subCategory, keywords, subKeywords, imageUrl, imageSource, imageTitle, author } = req.body;
         console.log(req.body);
@@ -289,6 +289,16 @@ const getHomePageNews = async (req, res) => {
             },
             orderBy: { createdAt: 'desc' },
         });
+        const sports = await prisma.news.findMany({
+            where: {
+                OR: [
+                    { category: 'খেলাধুলা' },
+                    { subCategory: 'খেলাধুলা' },
+                ]
+            },
+            take: 8,
+            orderBy: { createdAt: 'desc' },
+        });
         // Final response
         res.status(200).json({
             specialNews,
@@ -297,6 +307,7 @@ const getHomePageNews = async (req, res) => {
             politicalNews,
             internationalNews,
             entertainment,
+            sports,
             encouraging,
         });
     }
@@ -335,3 +346,58 @@ const getTitleForDescription = async (req, res) => {
     }
 };
 exports.getTitleForDescription = getTitleForDescription;
+// =========================
+// ✅ BACKEND CONTROLLER
+// =========================
+// File: controllers/newsController.ts
+const getCategorizedNews = async (req, res) => {
+    try {
+        const { category } = req.params;
+        const skip = parseInt(req.query.skip) || 0;
+        const take = parseInt(req.query.take) || 15;
+        const decodedCategory = req.params.category;
+        // const decodedCategory = decodeURIComponent(category)
+        // console.log(decodedCategory);
+        const news = await prisma.news.findMany({
+            where: {
+                OR: [
+                    { category: decodedCategory },
+                    { subCategory: decodedCategory },
+                ]
+            },
+            orderBy: { createdAt: 'desc' },
+            skip,
+            take,
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
+            }
+        });
+        const totalCount = await prisma.news.count({
+            where: {
+                OR: [
+                    { category: decodedCategory },
+                    { subCategory: decodedCategory },
+                ]
+            }
+        });
+        res.status(200).json({
+            success: true,
+            data: news,
+            hasMore: skip + take < totalCount,
+            totalCount
+        });
+    }
+    catch (error) {
+        console.error(`Failed to fetch categorized news:`, error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+};
+exports.getCategorizedNews = getCategorizedNews;

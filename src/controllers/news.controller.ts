@@ -21,7 +21,7 @@ interface NewsData {
 }
 
 export const createNews = async (req: Request, res: Response): Promise<any> => {
-  console.log(req.body);
+  console.log(req.body, 'news creatae');
 
   try {
     const {
@@ -337,7 +337,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
         ]
       },
       orderBy: { createdAt: 'desc' },
-      take: 4,
+      take: 6,
     });
 
     // International News (আন্তর্জাতিক) - latest 6
@@ -375,6 +375,19 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' },
     });
 
+
+
+    const sports = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'খেলাধুলা' },
+          { subCategory: 'খেলাধুলা' },
+        ]
+      },
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+    });
+
     // Final response
     res.status(200).json({
       specialNews,
@@ -383,6 +396,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       politicalNews,
       internationalNews,
       entertainment,
+      sports,
       encouraging,
     });
   } catch (error) {
@@ -407,7 +421,7 @@ export const getTitleForDescription = async (req: Request, res: Response) => {
         ]
       },
       orderBy: { createdAt: 'desc' },
-      take:7
+      take: 7
     })
 
     res.status(200).json({
@@ -422,6 +436,67 @@ export const getTitleForDescription = async (req: Request, res: Response) => {
   }
 }
 
+
+
+
+// =========================
+// ✅ BACKEND CONTROLLER
+// =========================
+// File: controllers/newsController.ts
+
+export const getCategorizedNews = async (req: Request, res: Response) => {
+  try {
+    const { category } = req.params
+    const skip = parseInt(req.query.skip as string) || 0
+    const take = parseInt(req.query.take as string) || 15
+
+    const decodedCategory = req.params.category
+    // const decodedCategory = decodeURIComponent(category)
+    // console.log(decodedCategory);
+    
+    const news = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: decodedCategory },
+          { subCategory: decodedCategory },
+        ]
+      },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take,
+      include: {
+        author: {
+          select: {
+            name: true,
+            image: true
+          }
+        }
+      }
+    })
+
+    const totalCount = await prisma.news.count({
+      where: {
+        OR: [
+          { category: decodedCategory },
+          { subCategory: decodedCategory },
+        ]
+      }
+    })
+
+    res.status(200).json({
+      success: true,
+      data: news,
+      hasMore: skip + take < totalCount,
+      totalCount
+    })
+  } catch (error) {
+    console.error(`Failed to fetch categorized news:`, error)
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    })
+  }
+}
 
 
 

@@ -35,22 +35,35 @@ export const login = (req: Request, res: Response) => {
   // Set secure HTTP-only cookies
   res
     .cookie('accessToken', accessToken, {
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production',
+      // sameSite: 'strict',
+      // maxAge: 15 * 60 * 1000,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 15 * 60 * 1000,
+      secure: process.env.NODE_ENV === 'production', // true in production
+      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
+      path: '/',
+      // domain: process.env.NODE_ENV === 'production' ? '.dailytnnewsbd.vercel.app' : undefined,
+      sameSite:'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+
     })
     .cookie('refreshToken', refreshToken, {
       // httpOnly: true,
       // secure: process.env.NODE_ENV === 'production',
       // sameSite: 'strict',
       // maxAge: 7 * 24 * 60 * 60 * 1000,
-
+       sameSite: 'lax',
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // true in production only
-      sameSite: 'lax',
-      path: '/', // important so it's sent to all routes
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: process.env.NODE_ENV === 'production', // true in production
+      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
+      path: '/',
+  //  domain: process.env.NODE_ENV === 'production' 
+  //   ? '.dailytnnewsbd.vercel.app' // Your Vercel domain
+  //   : 'localhost', // For development
+
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+
     })
     .status(200)
     .json({
@@ -73,12 +86,14 @@ export const logout = (req: Request, res: Response) => {
     .clearCookie('accessToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
+      // sameSite: 'strict',
     })
     .clearCookie('refreshToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
+      // sameSite: 'strict',
     })
     .status(200)
     .json({ message: 'Logged out successfully' });

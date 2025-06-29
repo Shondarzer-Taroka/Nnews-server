@@ -12,6 +12,7 @@ router.delete('/deleteAllNews', news_controller_1.deleteAllNews);
 router.get('/homepagenews', news_controller_1.getHomePageNews);
 router.get('/getSingleNews/:id', news_controller_1.getSingleNews);
 router.get('/getTitleForDescription/:category', news_controller_1.getTitleForDescription);
+router.get('/getCategorizedNews/:category', news_controller_1.getCategorizedNews);
 router.get('/getNews', news_controller_1.getNews);
 router.delete('/deleteNews/:id', news_controller_1.deleteNews);
 exports.default = router;

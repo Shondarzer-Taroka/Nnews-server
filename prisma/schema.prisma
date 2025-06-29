@@ -72,19 +72,46 @@ model User {
 
 
 
-// prisma/schema.prisma
-model EPaper {
-  id          String   @id @default(uuid())
-  title       String
-  description String?
-  pdfUrl      String
-  thumbnailUrl String
-  date        DateTime
-  pageCount   Int
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  @@index([date])
+
+
+
+
+
+
+
+
+
+
+
+model Poll {
+  id        String      @id @default(cuid())
+  question  String
+  options   PollOption[]
+  votes     Vote[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
+model PollOption {
+  id        String   @id @default(cuid())
+  text      String
+  votes     Int      @default(0)
+  poll      Poll     @relation(fields: [pollId], references: [id])
+  pollId    String
+  vote      Vote[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vote {
+  id        String     @id @default(cuid())
+  poll      Poll       @relation(fields: [pollId], references: [id])
+  pollId    String
+  option    PollOption @relation(fields: [optionId], references: [id])
+  optionId  String
+  voterId   String     // Unique identifier for the voter
+  createdAt DateTime   @default(now())
+
+  @@unique([pollId, voterId]) // Ensure one vote per poll per voter
+}
