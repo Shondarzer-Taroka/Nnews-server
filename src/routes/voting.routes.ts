@@ -1,14 +1,26 @@
-/// /// voting.route.ts
+// voting.routes.ts
 
 import express from 'express';
-import { checkVoterStatus, createPoll, getPoll, getPollResults, submitVote } from '../controllers/voting.controller';
+import { createPoll, getLatestPoll, getPoll, getPolls, getPollWithResults, submitVote } from '../controllers/voting.controller';
+
 
 const router = express.Router();
 
-router.post('/polls', createPoll);
-router.get('/polls/:id', getPoll);
-router.post('/polls/vote', submitVote);
-router.get('/polls/:id/results', getPollResults);
-router.get('/polls/:pollId/voter/:voterId', checkVoterStatus);
+// Create a new poll
+router.post('/createPoll', createPoll);
+
+router.get('/getLatestPoll',getLatestPoll)
+// Get a specific poll
+router.get('/:id', getPoll);
+
+// Get all polls
+router.get('/', getPolls);
+
+
+// Submit a vote
+router.post('/vote', submitVote);
+
+// Get poll with results
+router.get('/:pollId', getPollWithResults);
 
 export default router;

@@ -123,6 +123,8 @@ export const getSingleNews = async (req: Request, res: Response): Promise<any> =
       return res.status(400).json({ error: 'News ID is required' });
     }
 
+    console.log(id);
+    
     const news = await prisma.news.findUnique({
       where: { id },
       include: {
@@ -357,7 +359,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       where: {
         OR: [
           { category: 'বিনোদন' },
-          { subCategory: 'বিনোদন' },
+          { subCategory:{in:['বিনোদন','চলচ্চিত্র']} },
         ]
       },
       orderBy: { createdAt: 'desc' },

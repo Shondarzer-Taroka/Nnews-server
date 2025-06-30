@@ -50,6 +50,33 @@ model News {
   author   User   @relation("UserNews", fields: [authorId], references: [id])
 }
 
+
+
+// model User {
+//   id        String   @id @default(uuid())
+//   name      String
+//   email     String   @unique
+//   password  String
+//   phone     String
+//   address   String
+//   division  String
+//   district  String
+//   thana     String
+//   union     String
+//   postCode  String
+//   image     String?
+//   role      String   @default("user")
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   news News[] @relation("UserNews")
+// }
+
+
+
+
+
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -67,51 +94,33 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  news News[] @relation("UserNews")
+  news  News[] @relation("UserNews")
+  polls Poll[] // Add this relation field
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 model Poll {
-  id        String      @id @default(cuid())
+  id        String       @id @default(uuid())
   question  String
+  endDate   DateTime     @default(now())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
   options   PollOption[]
-  votes     Vote[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
 }
 
 model PollOption {
-  id        String   @id @default(cuid())
-  text      String
-  votes     Int      @default(0)
-  poll      Poll     @relation(fields: [pollId], references: [id])
-  pollId    String
-  vote      Vote[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id       String  @id @default(uuid())
+  text     String
+  poll     Poll    @relation(fields: [pollId], references: [id])
+  pollId   String
+  votes    Vote[]
 }
 
 model Vote {
-  id        String     @id @default(cuid())
-  poll      Poll       @relation(fields: [pollId], references: [id])
-  pollId    String
+  id        String     @id @default(uuid())
   option    PollOption @relation(fields: [optionId], references: [id])
   optionId  String
-  voterId   String     // Unique identifier for the voter
+  voterId   String     // Unique identifier for the voter (can be IP, device ID, etc.)
   createdAt DateTime   @default(now())
-
-  @@unique([pollId, voterId]) // Ensure one vote per poll per voter
 }

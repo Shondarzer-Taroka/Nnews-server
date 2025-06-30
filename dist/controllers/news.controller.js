@@ -84,6 +84,7 @@ const getSingleNews = async (req, res) => {
         if (!id) {
             return res.status(400).json({ error: 'News ID is required' });
         }
+        console.log(id);
         const news = await prisma.news.findUnique({
             where: { id },
             include: {
@@ -255,7 +256,7 @@ const getHomePageNews = async (req, res) => {
                 ]
             },
             orderBy: { createdAt: 'desc' },
-            take: 4,
+            take: 6,
         });
         // International News (আন্তর্জাতিক) - latest 6
         const internationalNews = await prisma.news.findMany({
@@ -273,7 +274,7 @@ const getHomePageNews = async (req, res) => {
             where: {
                 OR: [
                     { category: 'বিনোদন' },
-                    { subCategory: 'বিনোদন' },
+                    { subCategory: { in: ['বিনোদন', 'চলচ্চিত্র'] } },
                 ]
             },
             orderBy: { createdAt: 'desc' },
