@@ -10,5 +10,6 @@
     "forceConsistentCasingInFileNames": true,
      "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "exclude": ["src/recycle"]
+  "exclude": ["src/recycle"],
+  "include": ["src"]
 }

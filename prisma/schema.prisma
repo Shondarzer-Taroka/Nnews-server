@@ -32,23 +32,18 @@ datasource db {
 //   updatedAt DateTime @updatedAt
 // }
 
-model News {
-  id          String   @id @default(uuid())
-  title       String
-  content     String
-  category    String
-  subCategory String
-  imageSource String   @default("Unknown")
-  imageTitle  String   @default("Untitled")
-  keywords    String[]
-  subKeywords String[]
-  imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  authorId String
-  author   User   @relation("UserNews", fields: [authorId], references: [id])
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,7 +71,32 @@ model News {
 
 
 
+// // user after poll
+// model User {
+//   id        String   @id @default(uuid())
+//   name      String
+//   email     String   @unique
+//   password  String
+//   phone     String
+//   address   String
+//   division  String
+//   district  String
+//   thana     String
+//   union     String
+//   postCode  String
+//   image     String?
+//   role      String   @default("user")
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
+//   news  News[] @relation("UserNews")
+//   polls Poll[] // Add this relation field
+// }
+
+
+
+
+// prisma/schema.prisma
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -94,9 +114,37 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Relations
   news  News[] @relation("UserNews")
-  polls Poll[] // Add this relation field
+  polls     Poll[]
+  epapers   EPaper[]
 }
+
+
+
+
+
+
+model News {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  category    String
+  subCategory String
+  imageSource String   @default("Unknown")
+  imageTitle  String   @default("Untitled")
+  keywords    String[]
+  subKeywords String[]
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  authorId String
+  author   User   @relation("UserNews", fields: [authorId], references: [id])
+}
+
+
+
 
 model Poll {
   id        String       @id @default(uuid())
@@ -123,4 +171,52 @@ model Vote {
   optionId  String
   voterId   String     // Unique identifier for the voter (can be IP, device ID, etc.)
   createdAt DateTime   @default(now())
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+model EPaper {
+  id              Int       @id @default(autoincrement())
+  mainEpaperImage String
+  date            DateTime
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  articles        Article[]
+
+  @@index([date])
+  @@index([userId])
+}
+
+model Article {
+  id          Int      @id @default(autoincrement())
+  title       String
+  contentImage String
+  content     String
+  bboxX       Float
+  bboxY       Float
+  bboxWidth   Float
+  bboxHeight  Float
+  category    String
+  isLeading   Boolean  @default(false)
+  pageNumber  Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  epaperId    Int
+  epaper      EPaper   @relation(fields: [epaperId], references: [id])
+
+  @@index([epaperId])
+  @@index([category])
+  @@index([isLeading])
 }
