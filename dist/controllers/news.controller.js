@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCategorizedNews = exports.getTitleForDescription = exports.getHomePageNews = exports.deleteAllNews = exports.addManyData = exports.updateNews = exports.deleteNews = exports.getSingleNews = exports.getNews = exports.createNews = void 0;
+exports.getNewsForDashboard = exports.getCategorizedNews = exports.getTitleForDescription = exports.getHomePageNews = exports.deleteAllNews = exports.addManyData = exports.updateNews = exports.deleteNews = exports.getSingleNews = exports.getNews = exports.createNews = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createNews = async (req, res) => {
@@ -142,7 +142,9 @@ exports.deleteNews = deleteNews;
 const updateNews = async (req, res) => {
     try {
         const { id } = req.params;
+        console.log(id, 'up news params id');
         const { title, content, category, subCategory, keywords, subKeywords, imageUrl } = req.body;
+        console.log(req.body, 'upd');
         if (!id) {
             return res.status(400).json({ error: 'News ID is required' });
         }
@@ -347,18 +349,12 @@ const getTitleForDescription = async (req, res) => {
     }
 };
 exports.getTitleForDescription = getTitleForDescription;
-// =========================
-// ✅ BACKEND CONTROLLER
-// =========================
-// File: controllers/newsController.ts
 const getCategorizedNews = async (req, res) => {
     try {
         const { category } = req.params;
         const skip = parseInt(req.query.skip) || 0;
         const take = parseInt(req.query.take) || 15;
         const decodedCategory = req.params.category;
-        // const decodedCategory = decodeURIComponent(category)
-        // console.log(decodedCategory);
         const news = await prisma.news.findMany({
             where: {
                 OR: [
@@ -402,3 +398,61 @@ const getCategorizedNews = async (req, res) => {
     }
 };
 exports.getCategorizedNews = getCategorizedNews;
+/**
+ *  GET /news/dashboard
+ *  Query params: page, limit, search, category, subCategory
+ */
+const getNewsForDashboard = async (req, res) => {
+    try {
+        /* ---------- read query params ---------- */
+        const page = Number(req.query.page ?? 1);
+        const limit = Number(req.query.limit ?? 10);
+        const search = req.query.search ?? '';
+        const category = req.query.category ?? '';
+        const subCategory = req.query.subCategory ?? '';
+        /* ---------- build dynamic filters ---------- */
+        const filters = [];
+        if (search)
+            filters.push({
+                title: { contains: search, mode: 'insensitive' },
+            });
+        if (category)
+            filters.push({ category }); // equals string OK
+        if (subCategory)
+            filters.push({ subCategory });
+        /*  if filters array empty => {}  else => { AND: [...] }  */
+        const where = filters.length ? { AND: filters } : {};
+        /* ---------- query + count in parallel ---------- */
+        const [news, total] = await Promise.all([
+            prisma.news.findMany({
+                where,
+                include: {
+                    author: { select: { name: true, email: true, image: true } },
+                },
+                orderBy: { createdAt: 'desc' },
+                skip: (page - 1) * limit,
+                take: limit,
+            }),
+            prisma.news.count({ where }),
+        ]);
+        /* ---------- success response ---------- */
+        res.status(200).json({
+            success: true,
+            data: news,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
+        });
+    }
+    catch (error) {
+        console.error('Error fetching news:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch news',
+        });
+    }
+};
+exports.getNewsForDashboard = getNewsForDashboard;
