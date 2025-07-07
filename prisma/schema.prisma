@@ -14,88 +14,6 @@ datasource db {
   // directUrl = env("DIRECT_URL")
 }
 
-// model User {
-//   id        String   @id @default(uuid())
-//   name      String
-//   email     String   @unique
-//   password  String
-//   phone     String
-//   address   String
-//   division  String
-//   district  String
-//   thana     String
-//   union     String
-//   postCode  String
-//   image     String?
-//   role      String   @default("user") // "user" | "admin"
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// model User {
-//   id        String   @id @default(uuid())
-//   name      String
-//   email     String   @unique
-//   password  String
-//   phone     String
-//   address   String
-//   division  String
-//   district  String
-//   thana     String
-//   union     String
-//   postCode  String
-//   image     String?
-//   role      String   @default("user")
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   news News[] @relation("UserNews")
-// }
-
-
-
-
-
-// // user after poll
-// model User {
-//   id        String   @id @default(uuid())
-//   name      String
-//   email     String   @unique
-//   password  String
-//   phone     String
-//   address   String
-//   division  String
-//   district  String
-//   thana     String
-//   union     String
-//   postCode  String
-//   image     String?
-//   role      String   @default("user")
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   news  News[] @relation("UserNews")
-//   polls Poll[] // Add this relation field
-// }
-
-
-
-
 // prisma/schema.prisma
 model User {
   id        String   @id @default(uuid())
@@ -118,6 +36,8 @@ model User {
   news  News[] @relation("UserNews")
   polls     Poll[]
   epapers   EPaper[]
+
+  opinions  Opinion[]  @relation("UserOpinions")
 }
 
 
@@ -219,4 +139,27 @@ model Article {
   @@index([epaperId])
   @@index([category])
   @@index([isLeading])
+}
+
+
+
+
+
+
+
+
+
+
+///// // opinion
+model Opinion {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  authorId    String
+  author      User     @relation("UserOpinions", fields: [authorId], references: [id])
+  
+  @@index([authorId])
 }
