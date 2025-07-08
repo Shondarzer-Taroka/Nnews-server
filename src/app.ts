@@ -9,6 +9,7 @@ import cors from 'cors';
 import newsRoutes from './routes/news.route';
 import pollingRoutes from './routes/voting.routes';
 import epaperRoutes from './routes/epaper.routes';
+import opinionRoutes from './routes/opinion.routes';
 dotenv.config()
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/poll', pollingRoutes);
 app.use('/api/epaper',epaperRoutes)
+app.use('/api/opinion',opinionRoutes)
 
 // app.use('/api/e-papers', ePaperRoutes);
 

@@ -1,9 +1,38 @@
+// import express from 'express';
+// import { createOpinion } from '../controllers/opinion.controller';
+
+
+// const router = express.Router();
+
+// router.post('/create', createOpinion);
+// // router.get('/', getOpinions);
+
+// export default router;
+
+
+
+
+
+
+
+
 import express from 'express';
-import { createOpinion, getOpinions } from '../controller/opinion.controller';
+import {
+  createOpinion,
+  getOpinionById,
+  getOpinions,
+  getRelatedOpinions,
+  updateOpinion,
+  deleteOpinion
+} from  '../controllers/opinion.controller';
 
 const router = express.Router();
 
 router.post('/', createOpinion);
-router.get('/', getOpinions);
+router.get('/getAllOpinions', getOpinions);
+router.get('/related', getRelatedOpinions);
+router.get('/getSingleOpinion/:id', getOpinionById);
+router.put('/:id', updateOpinion);
+router.delete('/:id', deleteOpinion);
 
 export default router;
