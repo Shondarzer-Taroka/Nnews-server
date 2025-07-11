@@ -28,7 +28,7 @@ import {
 
 const router = express.Router();
 
-router.post('/', createOpinion);
+router.post('/create', createOpinion);
 router.get('/getAllOpinions', getOpinions);
 router.get('/related', getRelatedOpinions);
 router.get('/getSingleOpinion/:id', getOpinionById);

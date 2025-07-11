@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Opinion" ALTER COLUMN "category" DROP DEFAULT,
+ALTER COLUMN "subCategory" DROP DEFAULT;

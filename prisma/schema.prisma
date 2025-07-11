@@ -33,17 +33,16 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  news  News[] @relation("UserNews")
-  polls     Poll[]
-  epapers   EPaper[]
+  news    News[]   @relation("UserNews")
+  polls   Poll[]
+  epapers EPaper[]
 
-  opinions  Opinion[]  @relation("UserOpinions")
+  opinions Opinion[] @relation("UserOpinions")
+
+  Comment Comment[]
+
+  Like Like[]
 }
-
-
-
-
-
 
 model News {
   id          String   @id @default(uuid())
@@ -63,9 +62,6 @@ model News {
   author   User   @relation("UserNews", fields: [authorId], references: [id])
 }
 
-
-
-
 model Poll {
   id        String       @id @default(uuid())
   question  String
@@ -78,32 +74,20 @@ model Poll {
 }
 
 model PollOption {
-  id       String  @id @default(uuid())
-  text     String
-  poll     Poll    @relation(fields: [pollId], references: [id])
-  pollId   String
-  votes    Vote[]
+  id     String @id @default(uuid())
+  text   String
+  poll   Poll   @relation(fields: [pollId], references: [id])
+  pollId String
+  votes  Vote[]
 }
 
 model Vote {
   id        String     @id @default(uuid())
   option    PollOption @relation(fields: [optionId], references: [id])
   optionId  String
-  voterId   String     // Unique identifier for the voter (can be IP, device ID, etc.)
+  voterId   String // Unique identifier for the voter (can be IP, device ID, etc.)
   createdAt DateTime   @default(now())
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 model EPaper {
   id              Int       @id @default(autoincrement())
@@ -120,21 +104,21 @@ model EPaper {
 }
 
 model Article {
-  id          Int      @id @default(autoincrement())
-  title       String
+  id           Int      @id @default(autoincrement())
+  title        String
   contentImage String
-  content     String
-  bboxX       Float
-  bboxY       Float
-  bboxWidth   Float
-  bboxHeight  Float
-  category    String
-  isLeading   Boolean  @default(false)
-  pageNumber  Int      @default(1)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  epaperId    Int
-  epaper      EPaper   @relation(fields: [epaperId], references: [id])
+  content      String
+  bboxX        Float
+  bboxY        Float
+  bboxWidth    Float
+  bboxHeight   Float
+  category     String
+  isLeading    Boolean  @default(false)
+  pageNumber   Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  epaperId     Int
+  epaper       EPaper   @relation(fields: [epaperId], references: [id])
 
   @@index([epaperId])
   @@index([category])
@@ -142,24 +126,50 @@ model Article {
 }
 
 
-
-
-
-
-
-
-
-
-///// // opinion
 model Opinion {
   id          String   @id @default(uuid())
   title       String
   content     String
+  category    String
+  subCategory String
+  imageSource String   @default("Unknown")
+  imageTitle  String   @default("Untitled")
+  keywords    String[]
+  subKeywords String[]
   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  authorId    String
-  author      User     @relation("UserOpinions", fields: [authorId], references: [id])
-  
-  @@index([authorId])
+
+  authorId String
+  author   User   @relation("UserOpinions", fields: [authorId], references: [id])
+
+  Comment Comment[]
+
+  Like Like[]
+}
+
+
+
+
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  opinionId String
+  opinion   Opinion  @relation(fields: [opinionId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, opinionId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  opinionId String
+  opinion   Opinion  @relation(fields: [opinionId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
