@@ -67,6 +67,43 @@ export const createOpinion = async (req: Request, res: Response): Promise<any> =
 };
 
 // Get Single Opinion
+// export const getOpinionById = async (req: Request, res: Response): Promise<any> => {
+//   try {
+//     const { id } = req.params;
+
+//     const opinion = await prisma.opinion.findUnique({
+//       where: { id },
+//       include: {
+//         author: { select: { id: true, name: true, email: true, image: true } }
+//       }
+//     });
+
+//     if (!opinion) {
+//       return res.status(404).json({ success: false, message: 'Opinion not found' });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       message: 'Opinion retrieved successfully',
+//       data: opinion
+//     });
+
+//   } catch (error) {
+//     console.error('Error fetching opinion:', error);
+//     return res.status(500).json({
+//       success: false,
+//       message: 'Internal server error',
+//       error: error instanceof Error ? error.message : error
+//     });
+//   }
+// };
+
+
+
+
+
+
+
 export const getOpinionById = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
@@ -74,7 +111,20 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
     const opinion = await prisma.opinion.findUnique({
       where: { id },
       include: {
-        author: { select: { id: true, name: true, email: true, image: true } }
+        author: { 
+          select: { 
+            id: true, 
+            name: true, 
+            email: true, 
+            image: true 
+          } 
+        },
+        _count: {
+          select: {
+            Like: true,    // Singular model name as per your schema
+            Comment: true  // Singular model name as per your schema
+          }
+        }
       }
     });
 
@@ -82,10 +132,27 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
       return res.status(404).json({ success: false, message: 'Opinion not found' });
     }
 
+    // Check if current user has liked this opinion
+    let isLiked = false;
+    if ((req.user as {id:string})?.id) {
+      const like = await prisma.like.findFirst({
+        where: {
+          opinionId: id,
+          userId: (req.user as {id:string})?.id
+        }
+      });
+      isLiked = !!like;
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Opinion retrieved successfully',
-      data: opinion
+      data: {
+        ...opinion,
+        likesCount: opinion._count?.Like || 0,      // Use singular model name
+        commentsCount: opinion._count?.Comment || 0, // Use singular model name
+        isLiked
+      }
     });
 
   } catch (error) {
@@ -97,7 +164,6 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
     });
   }
 };
-
 // Get All Opinions with Pagination
 
 

@@ -152,15 +152,21 @@ model Opinion {
 
 
 
+
+
+
+
 model Like {
   id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
   opinionId String
   opinion   Opinion  @relation(fields: [opinionId], references: [id])
   createdAt DateTime @default(now())
+  userIp    String?
 
-  @@unique([userId, opinionId])
+  @@unique([userId, opinionId], name: "userId_opinionId")
+  @@unique([userIp, opinionId], name: "userIp_opinionId")
 }
 
 model Comment {
