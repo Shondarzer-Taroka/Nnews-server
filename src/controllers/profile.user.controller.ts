@@ -32,7 +32,8 @@ export const getSingleUserInfo = async (req: Request, res: Response):Promise<any
                 division: user?.division,
                 thana: user?.thana,
                 union: user?.union,
-                postCode: user?.postCode
+                postCode: user?.postCode,
+                phone:user?.phone
             }
 
 
@@ -51,6 +52,8 @@ export const getSingleUserInfo = async (req: Request, res: Response):Promise<any
 export const updateUser = async (req: Request, res: Response): Promise<any> => {
     try {
         const { id } = req.params;
+   
+        
         const {
             name,
             phone,
@@ -82,6 +85,8 @@ export const updateUser = async (req: Request, res: Response): Promise<any> => {
             }
         });
 
+      
+        
         res.json({
             message: 'User updated successfully',
             user: {

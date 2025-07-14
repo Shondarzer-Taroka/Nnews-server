@@ -11,7 +11,7 @@ router.post('/login', passport.authenticate('local', { session: false }), login)
 router.post('/logout', logout);
 router.get('/logInUser', logInUser)
 router.get('/singleUserInfo/:id', authenticate, getSingleUserInfo)
-router.get('/updateUser/:id', authenticate, updateUser)
+router.put('/updateUser/:id',authenticate, updateUser)
 export default router;
 
 // router.get('/logInUser',logInUser)
