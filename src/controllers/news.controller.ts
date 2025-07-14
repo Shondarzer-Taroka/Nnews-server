@@ -577,3 +577,35 @@ export const getNewsForDashboard = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+
+
+
+
+
+export const getLatestAndMostReadNews = async (req: Request, res: Response) => {
+  try {
+    const latestNews = await prisma.news.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 6,
+    });
+
+    const mostReadNews = await prisma.news.findMany({
+      orderBy: {
+        views: 'desc',
+      },
+      take: 6,
+    });
+
+    res.status(200).json({
+      latest: latestNews,
+      mostRead: mostReadNews,
+    });
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    res.status(500).json({ message: 'Server error fetching news' });
+  }
+};

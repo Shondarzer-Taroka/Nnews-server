@@ -71,6 +71,25 @@ model User {
   Like Like[]
 }
 
+// model News {
+//   id          String   @id @default(uuid())
+//   title       String
+//   content     String
+//   category    String
+//   subCategory String
+//   imageSource String   @default("Unknown")
+//   imageTitle  String   @default("Untitled")
+//   keywords    String[]
+//   subKeywords String[]
+//   imageUrl    String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+
+//   authorId String
+//   author   User   @relation("UserNews", fields: [authorId], references: [id])
+// }
+
+
 model News {
   id          String   @id @default(uuid())
   title       String
@@ -85,9 +104,12 @@ model News {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  views       Int      @default(0) // for views this line
+
   authorId String
   author   User   @relation("UserNews", fields: [authorId], references: [id])
 }
+
 
 model Poll {
   id        String       @id @default(uuid())
