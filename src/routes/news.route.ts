@@ -1,5 +1,5 @@
 import express from 'express';
-import { addManyData, createNews, deleteAllNews, deleteNews, getCategorizedNews, getHomePageNews, getLatestAndMostReadNews, getNews, getNewsForDashboard, getSingleNews, getTitleForDescription, updateNews } from '../controllers/news.controller';
+import { addManyData, createNews, deleteAllNews, deleteNews, getCategorizedNews, getHomePageNews, getLatestAndMostReadNews, getNews, getNewsForDashboard, getSingleNews, getTitleForDescription, incrementNewsView, updateNews } from '../controllers/news.controller';
 
 
 const router = express.Router();
@@ -16,5 +16,7 @@ router.get('/getNews', getNews);
 router.delete('/deleteNews/:id',deleteNews)
 router.put('/update/:id',updateNews)
 router.get('/news-tabs', getLatestAndMostReadNews);
+router.patch('/incrementNewsView/:id/view', incrementNewsView);
+
 export default router;
 

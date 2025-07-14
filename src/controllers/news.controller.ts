@@ -612,3 +612,21 @@ export const getLatestAndMostReadNews = async (req: Request, res: Response) => {
 
 
 
+
+
+
+
+
+export const incrementNewsView = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await prisma.news.update({
+      where: { id },
+      data: { views: { increment: 1 } },
+    });
+
+    res.status(200).json({ message: 'View incremented' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update views' });
+  }
+};
