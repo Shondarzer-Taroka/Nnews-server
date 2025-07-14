@@ -1,6 +1,7 @@
+// //  user.controller.ts
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt';
 import jwt from 'jsonwebtoken';
 
@@ -32,7 +33,7 @@ export const login = (req: Request, res: Response) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
-  // Set secure HTTP-only cookies
+  // // Set secure HTTP-only cookies
   res
     .cookie('accessToken', accessToken, {
       // httpOnly: true,
@@ -44,7 +45,7 @@ export const login = (req: Request, res: Response) => {
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
       path: '/',
       // domain: process.env.NODE_ENV === 'production' ? '.dailytnnewsbd.vercel.app' : undefined,
-      sameSite:'none',
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 
     })
@@ -53,18 +54,35 @@ export const login = (req: Request, res: Response) => {
       // secure: process.env.NODE_ENV === 'production',
       // sameSite: 'strict',
       // maxAge: 7 * 24 * 60 * 60 * 1000,
-       sameSite: 'none',
+      sameSite: 'none',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // true in production
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
       path: '/',
-  //  domain: process.env.NODE_ENV === 'production' 
-  //   ? '.dailytnnewsbd.vercel.app' // Your Vercel domain
-  //   : 'localhost', // For development
+      //  domain: process.env.NODE_ENV === 'production' 
+      //   ? '.dailytnnewsbd.vercel.app' // Your Vercel domain
+      //   : 'localhost', // For development
 
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 
     })
+    //  res
+    //   .cookie('accessToken', accessToken, {
+    //     httpOnly: true,
+    //     secure: process.env.NODE_ENV === 'production',
+    //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    //     path: '/',
+    //     maxAge: 15 * 60 * 1000,
+    //     domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+    //   })
+    //   .cookie('refreshToken', refreshToken, {
+    //     httpOnly: true,
+    //     secure: process.env.NODE_ENV === 'production',
+    //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    //     path: '/',
+    //     maxAge: 7 * 24 * 60 * 60 * 1000,
+    //     domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+    //   })
     .status(200)
     .json({
       message: 'Login successful',
@@ -124,6 +142,7 @@ export const logInUser = (req: Request, res: Response) => {
     res.status(401).json({ message: 'অবৈধ টোকেন' });
   }
 }
+
 
 
 

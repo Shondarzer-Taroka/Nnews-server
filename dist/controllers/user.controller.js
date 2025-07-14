@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logInUser = exports.logout = exports.login = exports.register = void 0;
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const client_1 = require("@prisma/client");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jwt_1 = require("../utils/jwt");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma = new client_1.PrismaClient();
@@ -32,7 +32,7 @@ const login = (req, res) => {
     console.log(user);
     const accessToken = (0, jwt_1.generateAccessToken)(user);
     const refreshToken = (0, jwt_1.generateRefreshToken)(user);
-    // Set secure HTTP-only cookies
+    // // Set secure HTTP-only cookies
     res
         .cookie('accessToken', accessToken, {
         // httpOnly: true,
@@ -62,6 +62,23 @@ const login = (req, res) => {
         //   : 'localhost', // For development
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     })
+        //  res
+        //   .cookie('accessToken', accessToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production',
+        //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        //     path: '/',
+        //     maxAge: 15 * 60 * 1000,
+        //     domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+        //   })
+        //   .cookie('refreshToken', refreshToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production',
+        //     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        //     path: '/',
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,
+        //     domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+        //   })
         .status(200)
         .json({
         message: 'Login successful',

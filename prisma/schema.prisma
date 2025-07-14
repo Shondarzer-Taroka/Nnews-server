@@ -15,6 +15,35 @@ datasource db {
 }
 
 // prisma/schema.prisma
+// model User {
+//   id        String   @id @default(uuid())
+//   name      String
+//   email     String   @unique
+//   password  String
+//   phone     String
+//   address   String
+//   division  String
+//   district  String
+//   thana     String
+//   union     String
+//   postCode  String
+//   image     String?
+//   role      String   @default("user")
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   // Relations
+//   news    News[]   @relation("UserNews")
+//   polls   Poll[]
+//   epapers EPaper[]
+
+//   opinions Opinion[] @relation("UserOpinions")
+
+//   Comment Comment[]
+
+//   Like Like[]
+// }
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -29,6 +58,7 @@ model User {
   postCode  String
   image     String?
   role      String   @default("user")
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -36,11 +66,8 @@ model User {
   news    News[]   @relation("UserNews")
   polls   Poll[]
   epapers EPaper[]
-
   opinions Opinion[] @relation("UserOpinions")
-
   Comment Comment[]
-
   Like Like[]
 }
 
