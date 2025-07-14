@@ -20,11 +20,16 @@ export const register = async (req: Request, res: Response) => {
         password: hashed,
       },
     });
+    console.log(user,'kjh');
+    
     res.status(201).json({ message: 'User registered', user });
   } catch (error) {
     res.status(500).json({ message: 'Failed to register', error });
   }
 };
+
+
+
 
 export const login = (req: Request, res: Response) => {
   const user = req.user as any;

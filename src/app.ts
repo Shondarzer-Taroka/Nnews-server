@@ -99,8 +99,8 @@ app.use(
       httpOnly: true,
       // secure: process.env.NODE_ENV === 'production', // 🔐 Set true for production
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 💡 Important for cross-origin
-      secure: true, // 🔐 Set true for production
-      sameSite: 'none', // 💡 Important for cross-origin
+      secure: false, // 🔐 Set true for production
+      sameSite: 'lax', // 💡 Important for cross-origin
       maxAge: 1000 * 60 * 60 * 24,
     },
   })
