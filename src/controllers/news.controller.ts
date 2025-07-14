@@ -590,14 +590,14 @@ export const getLatestAndMostReadNews = async (req: Request, res: Response) => {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 6,
+      take: 7,
     });
 
     const mostReadNews = await prisma.news.findMany({
       orderBy: {
         views: 'desc',
       },
-      take: 6,
+      take: 7,
     });
 
     res.status(200).json({
@@ -609,3 +609,6 @@ export const getLatestAndMostReadNews = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error fetching news' });
   }
 };
+
+
+
