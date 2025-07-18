@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNewsForDashboard = exports.getCategorizedNews = exports.getTitleForDescription = exports.getHomePageNews = exports.deleteAllNews = exports.addManyData = exports.updateNews = exports.deleteNews = exports.getSingleNews = exports.getNews = exports.createNews = void 0;
+exports.incrementNewsView = exports.getLatestAndMostReadNews = exports.getNewsForDashboard = exports.getCategorizedNews = exports.getTitleForDescription = exports.getHomePageNews = exports.deleteAllNews = exports.addManyData = exports.updateNews = exports.deleteNews = exports.getSingleNews = exports.getNews = exports.createNews = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createNews = async (req, res) => {
@@ -247,7 +247,7 @@ const getHomePageNews = async (req, res) => {
                 ]
             },
             orderBy: { createdAt: 'desc' },
-            take: 9,
+            take: 11,
         });
         // Political News (রাজনীতি) - latest 4
         const politicalNews = await prisma.news.findMany({
@@ -258,7 +258,7 @@ const getHomePageNews = async (req, res) => {
                 ]
             },
             orderBy: { createdAt: 'desc' },
-            take: 6,
+            take: 7,
         });
         // International News (আন্তর্জাতিক) - latest 6
         const internationalNews = await prisma.news.findMany({
@@ -302,6 +302,45 @@ const getHomePageNews = async (req, res) => {
             take: 8,
             orderBy: { createdAt: 'desc' },
         });
+        // const opinions = await prisma.opinion.findMany({
+        //   where: {
+        //     OR: [
+        //       { category: 'মতামত' },
+        //       { subCategory: 'মতামত' },
+        //     ]
+        //   },
+        //   include: {
+        //     author: { select: { id: true, name: true, image: true, role: true } }
+        //   },
+        //   take: 5,
+        //   orderBy: { createdAt: 'desc' },
+        // });
+        const opinions = await prisma.opinion.findMany({
+            where: {
+                OR: [
+                    { category: 'মতামত' },
+                    { subCategory: 'মতামত' },
+                ],
+            },
+            orderBy: { createdAt: 'desc' },
+            take: 5,
+            include: {
+                author: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image: true,
+                        role: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        Like: true,
+                        Comment: true,
+                    },
+                },
+            },
+        });
         // Final response
         res.status(200).json({
             specialNews,
@@ -312,6 +351,7 @@ const getHomePageNews = async (req, res) => {
             entertainment,
             sports,
             encouraging,
+            opinions
         });
     }
     catch (error) {
@@ -456,3 +496,42 @@ const getNewsForDashboard = async (req, res) => {
     }
 };
 exports.getNewsForDashboard = getNewsForDashboard;
+const getLatestAndMostReadNews = async (req, res) => {
+    try {
+        const latestNews = await prisma.news.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+            take: 7,
+        });
+        const mostReadNews = await prisma.news.findMany({
+            orderBy: {
+                views: 'desc',
+            },
+            take: 7,
+        });
+        res.status(200).json({
+            latest: latestNews,
+            mostRead: mostReadNews,
+        });
+    }
+    catch (error) {
+        console.error('Error fetching news:', error);
+        res.status(500).json({ message: 'Server error fetching news' });
+    }
+};
+exports.getLatestAndMostReadNews = getLatestAndMostReadNews;
+const incrementNewsView = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await prisma.news.update({
+            where: { id },
+            data: { views: { increment: 1 } },
+        });
+        res.status(200).json({ message: 'View incremented' });
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Failed to update views' });
+    }
+};
+exports.incrementNewsView = incrementNewsView;

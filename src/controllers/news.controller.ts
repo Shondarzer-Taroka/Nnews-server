@@ -1,4 +1,4 @@
-import { PrismaClient ,Prisma} from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
@@ -124,7 +124,7 @@ export const getSingleNews = async (req: Request, res: Response): Promise<any> =
     }
 
     console.log(id);
-    
+
     const news = await prisma.news.findUnique({
       where: { id },
       include: {
@@ -187,11 +187,11 @@ export const deleteNews = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const updateNews = async (req: Request, res: Response):Promise<any> => {
+export const updateNews = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
-    console.log(id,'up news params id');
-    
+    console.log(id, 'up news params id');
+
     const {
       title,
       content,
@@ -202,8 +202,8 @@ export const updateNews = async (req: Request, res: Response):Promise<any> => {
       imageUrl
     } = req.body;
 
-    console.log(req.body,'upd');
-    
+    console.log(req.body, 'upd');
+
 
     if (!id) {
       return res.status(400).json({ error: 'News ID is required' });
@@ -311,6 +311,39 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' }
     });
 
+
+
+    const categories = await prisma.news.findMany({
+      select: {
+        category: true,
+      },
+      distinct: ['category'],
+      take: 9,
+    });
+
+
+    const galleryNews = await Promise.all(
+      categories.map(async (cat) => {
+        const latest = await prisma.news.findFirst({
+          where: {
+            OR: [
+              { category: cat.category },
+              { subCategory: cat.category },
+            ],
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        });
+        return latest;
+      })
+    );
+
+
+    const filteredGalleryNews = galleryNews.filter(Boolean);
+
+
+
     // National News (latest 5)
     const nationalNews = await prisma.news.findMany({
       where: {
@@ -332,7 +365,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
         ]
       },
       orderBy: { createdAt: 'desc' },
-      take: 9,
+      take: 11,
     });
 
     // Political News (রাজনীতি) - latest 4
@@ -344,7 +377,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
         ]
       },
       orderBy: { createdAt: 'desc' },
-      take: 6,
+      take: 7,
     });
 
     // International News (আন্তর্জাতিক) - latest 6
@@ -364,7 +397,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       where: {
         OR: [
           { category: 'বিনোদন' },
-          { subCategory:{in:['বিনোদন','চলচ্চিত্র']} },
+          { subCategory: { in: ['বিনোদন', 'চলচ্চিত্র'] } },
         ]
       },
       orderBy: { createdAt: 'desc' },
@@ -395,16 +428,85 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' },
     });
 
+
+
+
+    // const opinions = await prisma.opinion.findMany({
+    //   where: {
+    //     OR: [
+    //       { category: 'মতামত' },
+    //       { subCategory: 'মতামত' },
+    //     ]
+    //   },
+    //   include: {
+    //     author: { select: { id: true, name: true, image: true, role: true } }
+    //   },
+    //   take: 5,
+    //   orderBy: { createdAt: 'desc' },
+    // });
+
+
+
+    const opinions = await prisma.opinion.findMany({
+      where: {
+        OR: [
+          { category: 'মতামত' },
+          { subCategory: 'মতামত' },
+        ],
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+            role: true,
+          },
+        },
+        _count: {
+          select: {
+            Like: true,
+            Comment: true,
+          },
+        },
+      },
+    });
+
+
+
+    const islamicNews = await prisma.news.findMany({
+      where: {
+        OR: [
+          { category: 'ইসলাম' },
+          { subCategory: 'ইসলাম' },
+        ]
+      },
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+    });
+
+
+    const maxim = await prisma.news.findFirst({
+      where: { category: 'বাণী' },
+      orderBy: { createdAt: 'desc' }
+    });
+
     // Final response
     res.status(200).json({
       specialNews,
       nationalNews,
+      islamicNews,
+      maxim,
       wholeCountry,
       politicalNews,
       internationalNews,
       entertainment,
       sports,
       encouraging,
+      opinions,
+      galleryNews
     });
   } catch (error) {
     console.error('Failed to fetch homepage news:', error);
@@ -455,8 +557,8 @@ export const getCategorizedNews = async (req: Request, res: Response) => {
     const take = parseInt(req.query.take as string) || 15
 
     const decodedCategory = req.params.category
-   
-    
+
+
     const news = await prisma.news.findMany({
       where: {
         OR: [
@@ -520,10 +622,10 @@ export const getCategorizedNews = async (req: Request, res: Response) => {
 export const getNewsForDashboard = async (req: Request, res: Response) => {
   try {
     /* ---------- read query params ---------- */
-    const page        = Number(req.query.page ?? 1);
-    const limit       = Number(req.query.limit ?? 10);
-    const search      = (req.query.search as string)      ?? '';
-    const category    = (req.query.category as string)    ?? '';
+    const page = Number(req.query.page ?? 1);
+    const limit = Number(req.query.limit ?? 10);
+    const search = (req.query.search as string) ?? '';
+    const category = (req.query.category as string) ?? '';
     const subCategory = (req.query.subCategory as string) ?? '';
 
     /* ---------- build dynamic filters ---------- */

@@ -1,5 +1,5 @@
 // backend/src/controller/opinion.controller.ts
-import { Prisma,PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
@@ -111,13 +111,13 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
     const opinion = await prisma.opinion.findUnique({
       where: { id },
       include: {
-        author: { 
-          select: { 
-            id: true, 
-            name: true, 
-            email: true, 
-            image: true 
-          } 
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true
+          }
         },
         _count: {
           select: {
@@ -134,11 +134,11 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
 
     // Check if current user has liked this opinion
     let isLiked = false;
-    if ((req.user as {id:string})?.id) {
+    if ((req.user as { id: string })?.id) {
       const like = await prisma.like.findFirst({
         where: {
           opinionId: id,
-          userId: (req.user as {id:string})?.id
+          userId: (req.user as { id: string })?.id
         }
       });
       isLiked = !!like;
@@ -177,11 +177,11 @@ export const getOpinions = async (req: Request, res: Response): Promise<any> => 
 
     const whereClause: Prisma.OpinionWhereInput = search
       ? {
-          OR: [
-            { title: { contains: search as string, mode: 'insensitive' } },
-            { content: { contains: search as string, mode: 'insensitive' } }
-          ]
-        }
+        OR: [
+          { title: { contains: search as string, mode: 'insensitive' } },
+          { content: { contains: search as string, mode: 'insensitive' } }
+        ]
+      }
       : {};
 
     const [opinions, total] = await Promise.all([

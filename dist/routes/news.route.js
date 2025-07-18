@@ -17,4 +17,6 @@ router.get('/getCategorizedNews/:category', news_controller_1.getCategorizedNews
 router.get('/getNews', news_controller_1.getNews);
 router.delete('/deleteNews/:id', news_controller_1.deleteNews);
 router.put('/update/:id', news_controller_1.updateNews);
+router.get('/news-tabs', news_controller_1.getLatestAndMostReadNews);
+router.patch('/incrementNewsView/:id/view', news_controller_1.incrementNewsView);
 exports.default = router;

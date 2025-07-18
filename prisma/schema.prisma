@@ -44,6 +44,8 @@ datasource db {
 //   Like Like[]
 // }
 
+
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -63,12 +65,12 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  news    News[]   @relation("UserNews")
-  polls   Poll[]
-  epapers EPaper[]
+  news     News[]    @relation("UserNews")
+  polls    Poll[]
+  epapers  EPaper[]
   opinions Opinion[] @relation("UserOpinions")
-  Comment Comment[]
-  Like Like[]
+  Comment  Comment[]
+  Like     Like[]
 }
 
 // model News {
@@ -89,7 +91,6 @@ model User {
 //   author   User   @relation("UserNews", fields: [authorId], references: [id])
 // }
 
-
 model News {
   id          String   @id @default(uuid())
   title       String
@@ -104,12 +105,14 @@ model News {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  views       Int      @default(0) // for views this line
+  views Int @default(0) // for views this line
 
   authorId String
   author   User   @relation("UserNews", fields: [authorId], references: [id])
-}
 
+  Comment Comment[]
+  Like    Like[]
+}
 
 model Poll {
   id        String       @id @default(uuid())
@@ -174,7 +177,6 @@ model Article {
   @@index([isLeading])
 }
 
-
 model Opinion {
   id          String   @id @default(uuid())
   title       String
@@ -197,14 +199,6 @@ model Opinion {
   Like Like[]
 }
 
-
-
-
-
-
-
-
-
 model Like {
   id        String   @id @default(uuid())
   userId    String?
@@ -213,6 +207,8 @@ model Like {
   opinion   Opinion  @relation(fields: [opinionId], references: [id])
   createdAt DateTime @default(now())
   userIp    String?
+  News      News?    @relation(fields: [newsId], references: [id])
+  newsId    String?
 
   @@unique([userId, opinionId], name: "userId_opinionId")
   @@unique([userIp, opinionId], name: "userIp_opinionId")
@@ -225,6 +221,8 @@ model Comment {
   user      User     @relation(fields: [userId], references: [id])
   opinionId String
   opinion   Opinion  @relation(fields: [opinionId], references: [id])
+  newsId    String
+  news      News     @relation(fields: [newsId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
