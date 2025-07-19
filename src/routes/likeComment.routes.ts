@@ -22,3 +22,23 @@ router.put('/opinions/comments/:commentId',authenticate, updateComment as Reques
 router.delete('/opinions/comments/:commentId',authenticate, deleteComment as RequestHandler);
 
 export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

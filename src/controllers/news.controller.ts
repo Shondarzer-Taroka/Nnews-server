@@ -493,6 +493,29 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' }
     });
 
+
+    const categoriesForLatest = {
+      doctor: 'ডাক্তার আছেন',
+      science: 'বিজ্ঞান ও প্রযুক্তি',
+      probash: 'পরবাস',
+      education: 'শিক্ষা',
+      tech: 'প্রযুক্তি'
+    };
+
+    const latestNewsFromDifferentCategories: Record<string, any[]> = {};
+
+    for (const key in categoriesForLatest) {
+      const categoryKey = key as keyof typeof categoriesForLatest;
+      latestNewsFromDifferentCategories[categoryKey] = await prisma.news.findMany({
+        where: { category: categoriesForLatest[categoryKey] },
+        orderBy: { createdAt: 'desc' },
+        take: 3
+      });
+    }
+
+
+
+
     // Final response
     res.status(200).json({
       specialNews,
@@ -506,7 +529,9 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       sports,
       encouraging,
       opinions,
-      galleryNews
+      galleryNews,
+      latestNewsFromDifferentCategories,
+
     });
   } catch (error) {
     console.error('Failed to fetch homepage news:', error);

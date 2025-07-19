@@ -1,21 +1,3 @@
-// import express from 'express';
-// import { createOpinion } from '../controllers/opinion.controller';
-
-
-// const router = express.Router();
-
-// router.post('/create', createOpinion);
-// // router.get('/', getOpinions);
-
-// export default router;
-
-
-
-
-
-
-
-
 import express from 'express';
 import {
   createOpinion,
