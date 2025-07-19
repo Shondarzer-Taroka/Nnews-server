@@ -227,12 +227,34 @@ const getHomePageNews = async (req, res) => {
         const specialNews = await prisma.news.findFirst({
             orderBy: { createdAt: 'desc' }
         });
+        const categories = await prisma.news.findMany({
+            select: {
+                category: true,
+            },
+            distinct: ['category'],
+            take: 9,
+        });
+        const galleryNews = await Promise.all(categories.map(async (cat) => {
+            const latest = await prisma.news.findFirst({
+                where: {
+                    OR: [
+                        { category: cat.category },
+                        { subCategory: cat.category },
+                    ],
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+            });
+            return latest;
+        }));
+        const filteredGalleryNews = galleryNews.filter(Boolean);
         // National News (latest 5)
         const nationalNews = await prisma.news.findMany({
             where: {
                 OR: [
-                    { category: 'জাতীয়' },
                     { subCategory: 'জাতীয়' },
+                    { category: 'জাতীয়' }
                 ]
             },
             orderBy: { createdAt: 'desc' },
@@ -341,17 +363,71 @@ const getHomePageNews = async (req, res) => {
                 },
             },
         });
+        const islamicNews = await prisma.news.findMany({
+            where: {
+                OR: [
+                    { category: 'ইসলাম' },
+                    { subCategory: 'ইসলাম' },
+                ]
+            },
+            take: 5,
+            orderBy: { createdAt: 'desc' },
+        });
+        const maxim = await prisma.news.findFirst({
+            where: { category: 'বাণী' },
+            orderBy: { createdAt: 'desc' }
+        });
+        const categoriesForLatest = {
+            doctor: 'ডাক্তার আছেন',
+            science: 'বিজ্ঞান ও প্রযুক্তি',
+            probash: 'পরবাস',
+            education: 'শিক্ষা',
+            // tech: 'প্রযুক্তি',
+        };
+        const latestNewsFromDifferentCategories = {};
+        for (const key in categoriesForLatest) {
+            const categoryKey = key;
+            latestNewsFromDifferentCategories[categoryKey] = await prisma.news.findMany({
+                where: {
+                    category: categoriesForLatest[categoryKey],
+                },
+                orderBy: { createdAt: 'desc' },
+                take: 3,
+                select: {
+                    id: true,
+                    category: true,
+                    title: true,
+                    imageUrl: true,
+                },
+            });
+        }
+        const transformed = Object.entries(latestNewsFromDifferentCategories).map(([key, newsArray]) => {
+            const categoryTitle = categoriesForLatest[key];
+            return {
+                title: categoryTitle,
+                imageUrl: newsArray[0]?.imageUrl || '',
+                headlines: newsArray.map(news => ({
+                    id: news.id,
+                    category: news.category,
+                    title: news.title
+                })),
+            };
+        });
         // Final response
         res.status(200).json({
             specialNews,
             nationalNews,
+            islamicNews,
+            maxim,
             wholeCountry,
             politicalNews,
             internationalNews,
             entertainment,
             sports,
             encouraging,
-            opinions
+            opinions,
+            galleryNews,
+            transformed,
         });
     }
     catch (error) {

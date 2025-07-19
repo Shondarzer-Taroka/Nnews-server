@@ -1,14 +1,8 @@
 "use strict";
-// import express from 'express';
-// import { createOpinion } from '../controllers/opinion.controller';
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// const router = express.Router();
-// router.post('/create', createOpinion);
-// // router.get('/', getOpinions);
-// export default router;
 const express_1 = __importDefault(require("express"));
 const opinion_controller_1 = require("../controllers/opinion.controller");
 const router = express_1.default.Router();

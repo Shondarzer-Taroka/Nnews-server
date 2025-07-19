@@ -53,7 +53,7 @@ const login = (req, res) => {
         // secure: process.env.NODE_ENV === 'production',
         // sameSite: 'strict',
         // maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: 'none',
+        sameSite: 'lax',
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // true in production
         // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
@@ -103,7 +103,7 @@ const logout = (req, res) => {
         .clearCookie('refreshToken', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none',
+        sameSite: 'lax',
         // sameSite: 'strict',
     })
         .status(200)

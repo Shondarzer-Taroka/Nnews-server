@@ -348,8 +348,8 @@ export const getHomePageNews = async (req: Request, res: Response) => {
     const nationalNews = await prisma.news.findMany({
       where: {
         OR: [
-          { category: 'জাতীয়' },
           { subCategory: 'জাতীয়' },
+          { category: 'জাতীয়' }
         ]
       },
       orderBy: { createdAt: 'desc' },
@@ -494,24 +494,48 @@ export const getHomePageNews = async (req: Request, res: Response) => {
     });
 
 
-    const categoriesForLatest = {
+   const categoriesForLatest = {
       doctor: 'ডাক্তার আছেন',
       science: 'বিজ্ঞান ও প্রযুক্তি',
       probash: 'পরবাস',
       education: 'শিক্ষা',
-      tech: 'প্রযুক্তি'
+      // tech: 'প্রযুক্তি',
     };
 
     const latestNewsFromDifferentCategories: Record<string, any[]> = {};
 
     for (const key in categoriesForLatest) {
       const categoryKey = key as keyof typeof categoriesForLatest;
+
       latestNewsFromDifferentCategories[categoryKey] = await prisma.news.findMany({
-        where: { category: categoriesForLatest[categoryKey] },
+        where: {
+          category: categoriesForLatest[categoryKey],
+        },
         orderBy: { createdAt: 'desc' },
-        take: 3
+        take: 3,
+        select: {
+          id: true,
+          category: true,
+          title: true,
+          imageUrl: true,
+
+        },
       });
     }
+
+    const transformed = Object.entries(latestNewsFromDifferentCategories).map(([key, newsArray]) => {
+      const categoryTitle = categoriesForLatest[key as keyof typeof categoriesForLatest];
+
+      return {
+        title: categoryTitle,
+        imageUrl: newsArray[0]?.imageUrl || '',
+        headlines: newsArray.map(news => ({
+          id: news.id,
+          category: news.category,
+          title:news.title
+        })),
+      };
+    });
 
 
 
@@ -530,7 +554,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       encouraging,
       opinions,
       galleryNews,
-      latestNewsFromDifferentCategories,
+      transformed,
 
     });
   } catch (error) {
