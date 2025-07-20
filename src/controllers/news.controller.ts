@@ -846,3 +846,234 @@ export const incrementNewsView = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to update views' });
   }
 };
+
+
+
+
+
+
+
+
+
+
+// not hold starts
+const convertBengaliDateToEnglish = (input: string): string => {
+  const bengaliDigits: Record<string, string> = {
+    '০': '0', '১': '1', '২': '2', '৩': '3', '৪': '4',
+    '৫': '5', '৬': '6', '৭': '7', '৮': '8', '৯': '9',
+  };
+
+  const monthMap: Record<string, string> = {
+    'জানুয়ারি': 'January',
+    'ফেব্রুয়ারি': 'February',
+    'মার্চ': 'March',
+    'এপ্রিল': 'April',
+    'মে': 'May',
+    'জুন': 'June',
+    'জুলাই': 'July',
+    'আগস্ট': 'August',
+    'সেপ্টেম্বর': 'September',
+    'অক্টোবর': 'October',
+    'নভেম্বর': 'November',
+    'ডিসেম্বর': 'December',
+  };
+
+  let converted = input;
+  Object.entries(bengaliDigits).forEach(([bn, en]) => {
+    converted = converted.replace(new RegExp(bn, 'g'), en);
+  });
+
+  Object.entries(monthMap).forEach(([bn, en]) => {
+    converted = converted.replace(bn, en);
+  });
+
+  return converted;
+};
+export const getSearchNews = async (req: Request, res: Response) => {
+  try {
+    const { keyword, date, category, subCategory, page = 1, limit = 9 } = req.query;
+console.log(req.query);
+
+    const filters: any = { AND: [] };
+
+    // Keyword search
+    if (keyword) {
+      filters.AND.push({
+        OR: [
+          { title: { contains: keyword.toString(), mode: 'insensitive' } },
+          { content: { contains: keyword.toString(), mode: 'insensitive' } },
+        ],
+      });
+    }
+
+    // Bengali date filter
+    if (date) {
+      const englishDate = convertBengaliDateToEnglish(date.toString());
+      const selectedDate = new Date(englishDate);
+
+      if (!isNaN(selectedDate.getTime())) {
+        const nextDate = new Date(selectedDate);
+        nextDate.setDate(selectedDate.getDate() + 1);
+
+        filters.AND.push({
+          createdAt: {
+            gte: selectedDate,
+            lt: nextDate,
+          },
+        });
+      }
+    }
+
+    // Category filters
+    if (category) {
+      filters.AND.push({ category: { equals: category.toString() } });
+    }
+
+    if (subCategory) {
+      filters.AND.push({ subCategory: { equals: subCategory.toString() } });
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const [news, total] = await Promise.all([
+      prisma.news.findMany({
+        where: filters,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: Number(limit),
+      }),
+      prisma.news.count({ where: filters }),
+    ]);
+
+    res.json({
+      success: true,
+      total,
+      page: Number(page),
+      limit: Number(limit),
+      news,
+    });
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// not hold ends
+
+
+interface SearchParams {
+  query?: string;
+  author?: string;
+  category?: string;
+  type?: string;
+  date?: string;
+  sort?: 'relevance' | 'latest' | 'popular';
+  page?: number;
+  limit?: number;
+}
+
+export const getSearchNewsdpsk = async (req: Request, res: Response) => { 
+  try {
+    const {
+      query = '',
+      author = '',
+      category = '',
+      type = '',
+      date = '',
+      sort = 'relevance',
+      page = 1,
+      limit = 10
+    } = req.query as unknown as SearchParams;
+
+    console.log(req.query,'df');
+    
+
+    const pageNumber = Number(page) || 1;
+    const limitNumber = Number(limit) || 10;
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Build the where clause for Prisma
+    const where: Prisma.NewsWhereInput = {};
+
+    // Text search (title or content)
+    if (query) {
+      where.OR = [
+        { title: { contains: query, mode: 'insensitive' } },
+        { content: { contains: query, mode: 'insensitive' } }
+      ];
+    }
+
+    // Author filter
+    if (author) {
+      where.author = {
+        name: { contains: author, mode: 'insensitive' }
+      };
+    }
+
+    // Category filter
+    if (category) {
+      where.category = category;
+    }
+
+    // Type filter (assuming 'type' is stored in subCategory)
+    if (type) {
+      where.subCategory = type;
+    }
+
+    // Date filter
+    if (date) {
+      const dateObj = new Date(date);
+      const nextDay = new Date(dateObj);
+      nextDay.setDate(dateObj.getDate() + 1);
+      
+      where.createdAt = {
+        gte: dateObj,
+        lt: nextDay
+      };
+    }
+
+    // Determine order by based on sort parameter
+    let orderBy: Prisma.NewsOrderByWithRelationInput = {};
+    if (sort === 'latest') {
+      orderBy = { createdAt: 'desc' };
+    } else if (sort === 'popular') {
+      orderBy = { views: 'desc' };
+    } else {
+      // Relevance - we'll use full-text search if available
+      // For Prisma, we can sort by text similarity if using PostgreSQL
+      // Otherwise, we'll fall back to createdAt
+      orderBy = { createdAt: 'desc' };
+    }
+
+    // Get total count for pagination
+    const total = await prisma.news.count({ where });
+
+    // Get the news items
+    const news = await prisma.news.findMany({
+      where,
+      include: {
+        author: {
+          select: {
+            name: true
+          }
+        }
+      },
+      orderBy,
+      skip,
+      take: limitNumber
+    });
+console.log(news);
+
+    res.json({
+      news,
+      total,
+      page: pageNumber,
+      totalPages: Math.ceil(total / limitNumber)
+    });
+
+  } catch (error) {
+    console.error('Error in getSearchNews:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
