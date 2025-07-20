@@ -494,7 +494,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
     });
 
 
-   const categoriesForLatest = {
+    const categoriesForLatest = {
       doctor: 'ডাক্তার আছেন',
       science: 'বিজ্ঞান ও প্রযুক্তি',
       probash: 'পরবাস',
@@ -532,12 +532,74 @@ export const getHomePageNews = async (req: Request, res: Response) => {
         headlines: newsArray.map(news => ({
           id: news.id,
           category: news.category,
-          title:news.title
+          title: news.title
         })),
       };
     });
 
 
+    const funCategories = ['স্বাস্থ্য', 'ভ্রমণ', 'কৃষি', 'প্রযুক্তি', 'বিজ্ঞান', 'জীবনধারা', 'প্রত্নতত্ত্ব'];
+    const featuredCategoryNames = ['স্বাস্থ্য', 'ভ্রমণ', 'জীবনধারা']; // শুধু এখান থেকেই data নেবো
+
+    // Step 1: Get all news from fun categories
+    const allFunNews = await prisma.news.findMany({
+      where: {
+        category: { in: funCategories },
+      },
+      select: {
+        id: true,
+        title: true,
+        category: true,
+        imageUrl: true,
+        createdAt: true,
+        content: true
+      },
+    });
+
+    // Step 2: Count per category
+    const categoryCounts: Record<string, number> = {};
+    for (const cat of funCategories) {
+      categoryCounts[cat] = allFunNews.filter(news => news.category === cat).length;
+    }
+
+    // Step 3: Pick 1 random item from each category
+    const categoryStats = funCategories.map(cat => {
+      const itemsInCat = allFunNews.filter(news => news.category === cat);
+      const randomItem = itemsInCat[Math.floor(Math.random() * itemsInCat.length)];
+
+      return {
+        ...randomItem,
+        count: categoryCounts[cat],
+        categoryTitle: `${cat} সম্পর্কিত খবর`,
+      };
+    });
+
+    // Step 4: Pick one additional randomNews (excluding already selected)
+    const remainingForRandom = allFunNews.filter(
+      news => !categoryStats.find(item => item.id === news.id)
+    );
+    const randomPool = remainingForRandom.length > 0 ? remainingForRandom : allFunNews;
+    const randomNews = randomPool[Math.floor(Math.random() * randomPool.length)];
+
+    // 🆕 Step 5: Custom featuredCategories
+    function getRandomItemsFromCategory(cat: string, count: number) {
+      const items = allFunNews.filter(news => news.category === cat);
+      const shuffled = [...items].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    }
+
+    const featuredCategories = [
+      ...getRandomItemsFromCategory('স্বাস্থ্য', 2),
+      ...getRandomItemsFromCategory('ভ্রমণ', 3),
+      ...getRandomItemsFromCategory('জীবনধারা', 2),
+    ];
+
+
+    const funNews = {
+      randomNews,
+      categoryStats,
+      featuredCategories,
+    };
 
 
     // Final response
@@ -555,6 +617,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       opinions,
       galleryNews,
       transformed,
+      funNews
 
     });
   } catch (error) {
@@ -728,6 +791,8 @@ export const getNewsForDashboard = async (req: Request, res: Response) => {
     });
   }
 };
+
+
 
 
 
