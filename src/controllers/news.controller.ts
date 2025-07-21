@@ -602,9 +602,25 @@ export const getHomePageNews = async (req: Request, res: Response) => {
     };
 
 
+        const allFunNewsforBottom = await prisma.news.findMany({
+      where: {
+        category: { in: funCategories },
+      },
+      select: {
+        id: true,
+        title: true,
+        category: true,
+        imageUrl: true,
+        createdAt: true,
+        content: true
+      },
+      take:4
+    });
+
     // Final response
     res.status(200).json({
       specialNews,
+      allFunNewsforBottom,
       nationalNews,
       islamicNews,
       maxim,

@@ -19,4 +19,6 @@ router.delete('/deleteNews/:id', news_controller_1.deleteNews);
 router.put('/update/:id', news_controller_1.updateNews);
 router.get('/news-tabs', news_controller_1.getLatestAndMostReadNews);
 router.patch('/incrementNewsView/:id/view', news_controller_1.incrementNewsView);
+router.get('/search', news_controller_1.getSearchNews);
+router.get('/searchdspk', news_controller_1.getSearchNewsdpsk);
 exports.default = router;

@@ -67,24 +67,24 @@ app.use((0, cors_1.default)({
     origin: ['http://localhost:3000', 'https://dailytnnewsbd.vercel.app'],
     credentials: true,
 }));
-// ✅ Secure session configuration
+//  Secure session configuration
 app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET || 'keyboard cat',
     resave: false,
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production', // 🔐 Set true for production
-        // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 💡 Important for cross-origin
-        secure: false, // 🔐 Set true for production
-        sameSite: 'lax', // 💡 Important for cross-origin
+        // secure: process.env.NODE_ENV === 'production', // Set true for production
+        // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', //  Important for cross-origin
+        secure: true, //  Set true for production
+        sameSite: 'none', //  Important for cross-origin
         maxAge: 1000 * 60 * 60 * 24,
     },
 }));
-// 🔐 Passport setup
+//  Passport setup
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-// 🔀 Routes
+// Routes
 app.use('/api/users', user_route_1.default);
 app.use('/api/users', user_admin_routes_1.default);
 app.use('/api/news', news_route_1.default);

@@ -89,7 +89,7 @@ app.use(
   })
 );
 
-// ✅ Secure session configuration
+//  Secure session configuration
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'keyboard cat',
@@ -97,20 +97,20 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      // secure: process.env.NODE_ENV === 'production', // 🔐 Set true for production
-      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 💡 Important for cross-origin
-      secure: false, // 🔐 Set true for production
-      sameSite: 'lax', // 💡 Important for cross-origin
+      // secure: process.env.NODE_ENV === 'production', // Set true for production
+      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', //  Important for cross-origin
+      secure: true, //  Set true for production
+      sameSite: 'none', //  Important for cross-origin
       maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
 
-// 🔐 Passport setup
+//  Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
 
-// 🔀 Routes
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/users', userAminRoutes);
 app.use('/api/news', newsRoutes);

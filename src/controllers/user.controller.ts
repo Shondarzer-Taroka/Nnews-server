@@ -42,11 +42,11 @@ export const login = (req: Request, res: Response) => {
   res
     .cookie('accessToken', accessToken, {
       // httpOnly: true,
-      // secure: process.env.NODE_ENV === 'production',
+      secure:true,
       // sameSite: 'strict',
       // maxAge: 15 * 60 * 1000,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // true in production
+      // secure: process.env.NODE_ENV === 'production', // true in production
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
       path: '/',
       // domain: process.env.NODE_ENV === 'production' ? '.dailytnnewsbd.vercel.app' : undefined,
@@ -59,7 +59,7 @@ export const login = (req: Request, res: Response) => {
       // secure: process.env.NODE_ENV === 'production',
       // sameSite: 'strict',
       // maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: 'lax',
+      sameSite: 'none',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // true in production
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
@@ -114,8 +114,9 @@ export const logout = (req: Request, res: Response) => {
     })
     .clearCookie('refreshToken', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure:true,
+      // secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
       // sameSite: 'strict',
     })
     .status(200)

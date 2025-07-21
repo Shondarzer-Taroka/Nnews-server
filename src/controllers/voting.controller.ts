@@ -123,7 +123,7 @@ export const createPoll = async (req: Request, res: Response):Promise<any> => {
 
 
 
-// ... (keep your existing interfaces and createPoll implementation)
+
 
 export const getPoll = async (req: Request, res: Response):Promise<any> => {
     try {
@@ -286,11 +286,6 @@ export const getPolls = async (req: Request, res: Response):Promise<any> => {
 
 
 
-
-
-
-
-
 interface PollResponse {
   id: string;
   question: string;
@@ -369,26 +364,6 @@ export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=>
         });
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
