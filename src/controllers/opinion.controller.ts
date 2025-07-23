@@ -101,9 +101,6 @@ export const createOpinion = async (req: Request, res: Response): Promise<any> =
 
 
 
-
-
-
 export const getOpinionById = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;

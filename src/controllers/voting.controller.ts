@@ -123,7 +123,7 @@ export const createPoll = async (req: Request, res: Response):Promise<any> => {
 
 
 
-
+// ... (keep your existing interfaces and createPoll implementation)
 
 export const getPoll = async (req: Request, res: Response):Promise<any> => {
     try {
@@ -286,6 +286,11 @@ export const getPolls = async (req: Request, res: Response):Promise<any> => {
 
 
 
+
+
+
+
+
 interface PollResponse {
   id: string;
   question: string;
@@ -302,17 +307,103 @@ interface PollResponse {
     email: string;
     image: string | null;
   };
+  
 }
 
-export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=> {
+
+
+
+
+
+
+
+
+
+
+
+// export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=> {
+//     try {
+//         // Get the most recent poll (either newly created or updated)
+//         const latestPoll = await prisma.poll.findFirst({
+//             orderBy: {
+//                 updatedAt: 'desc'
+//             },
+//             include: {
+//                 options: true,
+//                 user: {
+//                     select: {
+//                         id: true,
+//                         name: true,
+//                         email: true,
+//                         image: true
+//                     }
+//                 }
+//             }
+//         });
+
+//         if (!latestPoll) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'No polls found'
+//             });
+//         }
+
+//         // Format the response
+//         const response: PollResponse = {
+//             id: latestPoll.id,
+//             question: latestPoll.question,
+//             endDate: latestPoll.endDate,
+//             createdAt: latestPoll.createdAt,
+//             updatedAt: latestPoll.updatedAt,
+//             options: latestPoll.options.map(option => ({
+//                 id: option.id,
+//                 text: option.text
+//             })),
+//             user: {
+//                 id: latestPoll.user.id,
+//                 name: latestPoll.user.name,
+//                 email: latestPoll.user.email,
+//                 image: latestPoll.user.image
+//             }
+//         };
+
+//         return res.status(200).json({
+//             success: true,
+//             data: response
+//         });
+
+//     } catch (error) {
+//         console.error('Error fetching latest poll:', error);
+//         return res.status(500).json({
+//             success: false,
+//             message: 'Internal server error',
+//             error: error instanceof Error ? error.message : 'Unknown error'
+//         });
+//     }
+// };
+
+
+
+
+
+
+
+
+export const getLatestPoll = async (req: Request, res: Response): Promise<any> => {
     try {
-        // Get the most recent poll (either newly created or updated)
+        // Get the most recent poll with options and their vote counts
         const latestPoll = await prisma.poll.findFirst({
             orderBy: {
                 updatedAt: 'desc'
             },
             include: {
-                options: true,
+                options: {
+                    include: {
+                        _count: {
+                            select: { votes: true }
+                        }
+                    }
+                },
                 user: {
                     select: {
                         id: true,
@@ -331,8 +422,8 @@ export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=>
             });
         }
 
-        // Format the response
-        const response: PollResponse = {
+        // Format the response with vote counts
+        const response= {
             id: latestPoll.id,
             question: latestPoll.question,
             endDate: latestPoll.endDate,
@@ -340,14 +431,16 @@ export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=>
             updatedAt: latestPoll.updatedAt,
             options: latestPoll.options.map(option => ({
                 id: option.id,
-                text: option.text
+                text: option.text,
+                voteCount: option._count.votes  // Add vote count to each option
             })),
             user: {
                 id: latestPoll.user.id,
                 name: latestPoll.user.name,
                 email: latestPoll.user.email,
                 image: latestPoll.user.image
-            }
+            },
+            totalVotes: latestPoll.options.reduce((sum, option) => sum + option._count.votes, 0)  // Optional: Add total votes count
         };
 
         return res.status(200).json({
@@ -364,6 +457,17 @@ export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=>
         });
     }
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -530,3 +634,11 @@ export const getPollWithResults = async (req: Request, res: Response):Promise<an
     });
   }
 };
+
+
+
+
+
+
+
+
