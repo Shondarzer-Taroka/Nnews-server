@@ -4,9 +4,10 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
-// Create Opinion
+
 export const createOpinion = async (req: Request, res: Response): Promise<any> => {
   try {
+    const io = req.app.get('io');
     const {
       title,
       content,
@@ -43,12 +44,27 @@ export const createOpinion = async (req: Request, res: Response): Promise<any> =
         keywords,
         subKeywords,
         imageUrl,
-        authorId
+        authorId,
+        status: 'PENDING' // New status field
       },
       include: {
         author: { select: { id: true, name: true, email: true } }
       }
     });
+
+    // Create notification for admin
+    const adminNotification = await prisma.notification.create({
+      data: {
+        userId: authorId,
+        message: `New opinion submitted: ${title}`,
+        type: 'OPINION_SUBMITTED',
+        relatedId: opinion.id,
+        isAdmin: true
+      }
+    });
+
+    // Notify admin in real-time
+    io.to('admin').emit('newNotification', adminNotification);
 
     return res.status(201).json({
       success: true,
@@ -65,6 +81,144 @@ export const createOpinion = async (req: Request, res: Response): Promise<any> =
     });
   }
 };
+
+export const updateOpinionStatus = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const io = req.app.get('io');
+    const { opinionId } = req.params;
+    const { status } = req.body;
+
+    if (!['APPROVED', 'REJECTED', 'PENDING'].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid status'
+      });
+    }
+
+    const opinion = await prisma.opinion.update({
+      where: { id: opinionId },
+      data: { status },
+      include: { author: true }
+    });
+
+    // Create notification for user
+    const userNotification = await prisma.notification.create({
+      data: {
+        userId: opinion.authorId,
+        message: `Your opinion "${opinion.title}" has been ${status.toLowerCase()}`,
+        type: `OPINION_${status}`,
+        relatedId: opinion.id,
+        isAdmin: false
+      }
+    });
+
+    // Notify user in real-time
+    io.to(opinion.authorId).emit('newNotification', userNotification);
+
+    return res.status(200).json({
+      success: true,
+      message: `Opinion ${status.toLowerCase()} successfully`,
+      data: opinion
+    });
+
+  } catch (error) {
+    console.error('Error updating opinion status:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : error
+    });
+  }
+};
+
+export const getPendingOpinions = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const opinions = await prisma.opinion.findMany({
+      where: { status: 'PENDING' },
+      include: {
+        author: { select: { id: true, name: true, email: true } }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: opinions
+    });
+  } catch (error) {
+    console.error('Error fetching pending opinions:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : error
+    });
+  }
+};
+
+// // Create Opinion
+// export const createOpinion = async (req: Request, res: Response): Promise<any> => {
+//   try {
+//     const {
+//       title,
+//       content,
+//       category,
+//       subCategory,
+//       imageSource = "Unknown",
+//       imageTitle = "Untitled",
+//       keywords = [],
+//       subKeywords = [],
+//       imageUrl,
+//       authorId
+//     } = req.body;
+
+//     if (!title || !content || !authorId) {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'Required fields are missing'
+//       });
+//     }
+
+//     const userExists = await prisma.user.findUnique({ where: { id: authorId } });
+//     if (!userExists) {
+//       return res.status(404).json({ success: false, message: 'User not found' });
+//     }
+
+//     const opinion = await prisma.opinion.create({
+//       data: {
+//         title,
+//         content,
+//         category,
+//         subCategory,
+//         imageSource,
+//         imageTitle,
+//         keywords,
+//         subKeywords,
+//         imageUrl,
+//         authorId
+//       },
+//       include: {
+//         author: { select: { id: true, name: true, email: true } }
+//       }
+//     });
+
+//     return res.status(201).json({
+//       success: true,
+//       message: 'Opinion created successfully',
+//       data: opinion
+//     });
+
+//   } catch (error) {
+//     console.error('Error creating opinion:', error);
+//     return res.status(500).json({
+//       success: false,
+//       message: 'Internal server error',
+//       error: error instanceof Error ? error.message : error
+//     });
+//   }
+// };
+
+
+
 
 // Get Single Opinion
 // export const getOpinionById = async (req: Request, res: Response): Promise<any> => {
