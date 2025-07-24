@@ -368,7 +368,7 @@ export const deleteOpinion = async (req: Request, res: Response): Promise<any> =
 
 
 
-export const getAllOpinions = async (req: Request, res: Response) => {
+export const getAllOpinions = async (req: Request, res: Response):Promise<any> => {
   try {
     const { status, page = 1, limit = 10 } = req.query;
     
@@ -406,7 +406,7 @@ export const getAllOpinions = async (req: Request, res: Response) => {
   }
 };
 
-export const updateOpinionStatus = async (req: Request, res: Response) => {
+export const updateOpinionStatus = async (req: Request, res: Response):Promise<any> => {
   try {
     const { id } = req.params;
     const { status, rejectionReason } = req.body;
@@ -469,7 +469,7 @@ export const updateOpinionStatus = async (req: Request, res: Response) => {
 
 
 
-export const createOpinion = async (req: Request, res: Response) => {
+export const createOpinion = async (req: Request, res: Response):Promise<any> => {
   try {
     const {
       title,

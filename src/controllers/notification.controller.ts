@@ -3,43 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// export const getAdminNotifications = async (req: Request, res: Response) => {
-//   try {
-//     if ( (req.user as {role:string}).role !== 'admin') {
-//       return res.status(403).json({ error: 'Forbidden' });
-//     }
-
-//     const notifications = await prisma.notification.findMany({
-//       where: {
-//         OR: [
-//           { type: 'OPINION_SUBMITTED' },
-//           { type: 'SYSTEM_MESSAGE' }
-//         ]
-//       },
-//       orderBy: { createdAt: 'desc' },
-//       take: 20,
-//       include: {
-//         opinion: {
-//           include: {
-//             author: {
-//               select: {
-//                 id: true,
-//                 name: true,
-//                 email: true
-//               }
-//             }
-//           }
-//         }
-//       }
-//     });
-
-//     res.json({ notifications });
-//   } catch (error) {
-//     console.error('Error fetching admin notifications:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
 export const getUserNotifications = async (req: Request, res: Response) => {
   try {
     const notifications = await prisma.notification.findMany({
