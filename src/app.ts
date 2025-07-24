@@ -74,6 +74,13 @@
 
 
 
+
+
+
+
+
+
+// // app.ts
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import express from 'express';
@@ -87,10 +94,13 @@ import newsRoutes from './routes/news.route';
 import pollingRoutes from './routes/voting.routes';
 import epaperRoutes from './routes/epaper.routes';
 import opinionRoutes from './routes/opinion.routes';
+import notificationRoutes from './routes/notification.routes';
 
 import likeCommentRoutes from './routes/likeComment.routes';
 import userAminRoutes from './routes/user.admin.routes';
 import dashboardOverviewRoutes from './routes/dashboard.overview.route';
+import { verifyToken } from './middlewares/verifyToken';
+import { verifyTokenSocket } from './utils/jwtVerify';
 dotenv.config();
 const app = express();
 
@@ -111,35 +121,65 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+    credentials:true,
   }
 });
 
 
 
-// Socket.io connection handler
+
+// Socket.IO middleware for authentication
+
+
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  console.log('ksdjf',socket);
+  
+  if (!token) {
+    return next(new Error('Authentication error: No token provided'));
+  }
+
+  const user = verifyTokenSocket(token);
+  if (!user) {
+    return next(new Error('Authentication error: Invalid token'));
+  }
+
+  socket.data.user = user;
+  next();
+});
+
+
+// Socket.IO connection handler
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  console.log(`User connected: ${socket.data.user.id}`);
 
-  // Join room based on user ID
-  socket.on('joinUserRoom', (userId) => {
-    socket.join(userId);
-    console.log(`User ${userId} joined their room`);
-  });
+  // Join user-specific room
+  socket.join(`user_${socket.data.user.id}`);
 
-  // Join admin room
-  socket.on('joinAdminRoom', () => {
-    socket.join('admin');
-    console.log('Admin joined admin room');
-  });
+  // Join admin room if user is admin
+  if (socket.data.user.role === 'admin') {
+    socket.join('admin_room');
+    console.log(`Admin joined: ${socket.data.user.id}`);
+  }
 
   socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    console.log(`User disconnected: ${socket.data.user.id}`);
   });
 });
 
-// Make io accessible in routes
-app.set('io', io);
+
+
+// Helper functions for emitting events
+export const emitToUser = (userId: string, event: string, data: any) => {
+  io.to(`user_${userId}`).emit(event, data);
+};
+
+export const emitToAdmins = (event: string, data: any) => {
+  io.to('admin_room').emit(event, data);
+};
+
+export { io };
 
 
 
@@ -157,8 +197,8 @@ app.use(
       httpOnly: true,
       // secure: process.env.NODE_ENV === 'production', // Set true for production
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', //  Important for cross-origin
-      secure: true, //  Set true for production
-      sameSite: 'none', //  Important for cross-origin
+      secure: false, //  Set true for production
+      sameSite: 'lax', //  Important for cross-origin
       maxAge: 1000 * 60 * 60 * 24,
     },
   })
@@ -174,7 +214,12 @@ app.use('/api/users', userAminRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/poll', pollingRoutes);
 app.use('/api/epaper', epaperRoutes);
+// app.use('/api/opinion', opinionRoutes);
+// Routes
+// app.use('/api/auth', authRoutes);
 app.use('/api/opinion', opinionRoutes);
+app.use('/api/notifications', notificationRoutes);
+
 app.use('/api/likeComment', likeCommentRoutes);
 app.use('/api/dashboard', dashboardOverviewRoutes);
 

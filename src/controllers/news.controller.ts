@@ -467,8 +467,8 @@ export const getHomePageNews = async (req: Request, res: Response) => {
         },
         _count: {
           select: {
-            Like: true,
-            Comment: true,
+            likes: true,
+            comments: true,
           },
         },
       },
