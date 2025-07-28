@@ -25,3 +25,4 @@ router.put('/:id', updateOpinion);
 router.delete('/:id', deleteOpinion);
 
 export default router;
+
