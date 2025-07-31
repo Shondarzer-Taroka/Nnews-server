@@ -464,3 +464,51 @@ export const createOpinion = async (req: Request, res: Response):Promise<any> =>
     });
   }
 };
+
+
+
+
+
+export const getOpinionByEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.params;
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        opinions: {
+          select: {
+            id: true,
+            title: true,
+            status: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with that email' });
+    }
+
+    const opinions = user.opinions.map(opinion => ({
+      id: opinion.id,
+      name: user.name,
+      email: user.email,
+      title: opinion.title,
+      status: opinion.status,
+      createdAt: opinion.createdAt,
+      updatedAt: opinion.updatedAt,
+    }));
+
+    return res.status(200).json(opinions);
+  } catch (error) {
+    console.error('Error fetching opinions by email:', error);
+    return res.status(500).json({ message: 'Server Error', error });
+  }
+};
