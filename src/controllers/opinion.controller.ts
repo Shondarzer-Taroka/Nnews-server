@@ -225,7 +225,7 @@ export const updateOpinion = async (req: Request, res: Response): Promise<any> =
 export const deleteOpinion = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
-    const { authorId } = req.body;
+    const authorId = (req.user as {id:string}).id;
 
     const existingOpinion = await prisma.opinion.findUnique({ where: { id } });
 
@@ -469,9 +469,14 @@ export const createOpinion = async (req: Request, res: Response):Promise<any> =>
 
 
 
-export const getOpinionByEmail = async (req: Request, res: Response) => {
+
+
+export const getOpinionByEmail = async (req: Request, res: Response):Promise<any> => {
   try {
     const { email } = req.params;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
+    const skip = (page - 1) * limit;
 
     if (!email) {
       return res.status(400).json({ message: 'Email is required' });
@@ -479,34 +484,39 @@ export const getOpinionByEmail = async (req: Request, res: Response) => {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      include: {
-        opinions: {
-          select: {
-            id: true,
-            title: true,
-            status: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
-      },
     });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found with that email' });
     }
 
-    const opinions = user.opinions.map(opinion => ({
-      id: opinion.id,
-      name: user.name,
-      email: user.email,
-      title: opinion.title,
-      status: opinion.status,
-      createdAt: opinion.createdAt,
-      updatedAt: opinion.updatedAt,
-    }));
+    const [opinions, total] = await Promise.all([
+      prisma.opinion.findMany({
+        where: { authorId: user.id },
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      }),
+      prisma.opinion.count({ where: { authorId: user.id } }),
+    ]);
 
-    return res.status(200).json(opinions);
+    return res.status(200).json({
+      opinions: opinions.map(op => ({
+        ...op,
+        name: user.name,
+        email: user.email,
+      })),
+      total,
+      page,
+      limit,
+    });
   } catch (error) {
     console.error('Error fetching opinions by email:', error);
     return res.status(500).json({ message: 'Server Error', error });

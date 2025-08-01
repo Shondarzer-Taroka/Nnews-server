@@ -4,6 +4,7 @@ import {
   createOpinion,
   deleteOpinion,
   getAllOpinions,
+  getOpinionByEmail,
   getOpinionById,
   getOpinions,
   getRelatedOpinions,
@@ -21,8 +22,9 @@ router.put('/:id/status', authenticate, updateOpinionStatus);
 router.get('/getAllOpinions', getOpinions);
 router.get('/related', getRelatedOpinions);
 router.get('/getSingleOpinion/:id', getOpinionById);
-router.put('/:id', updateOpinion);
-router.delete('/:id', deleteOpinion);
+router.get('/getOpinionByEmail/:email', getOpinionByEmail);
+router.put('/update/:id', updateOpinion);
+router.delete('/delete/:id', authenticate, deleteOpinion);
 
 export default router;
 
