@@ -4,18 +4,25 @@ import { Request, Response } from 'express';
 const prisma = new PrismaClient();
 
 interface QueryParams {
-  division?: string;
-  district?: string;
-  thana?: string;
-  union?: string;
-  page?: number;
-  limit?: number;
+    division?: string;
+    district?: string;
+    thana?: string;
+    union?: string;
+    page?: number;
+    limit?: number;
 }
 
-export const getNewsArea=async (req:Request,res:Response) => {
+export const getNewsArea = async (req: Request, res: Response) => {
     try {
-        const category= req.params.category
+        const {
+            district,
+            division,
+            thana,
+            union,
+            page,
+            limit
+        } = req.query as unknown as QueryParams
     } catch (error) {
-        
+
     }
 }
