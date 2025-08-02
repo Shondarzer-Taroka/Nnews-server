@@ -53,6 +53,19 @@ export const getNewsArea = async (req: Request, res: Response) => {
         }
 
         const total=prisma.news.count({where})
+
+        const news= await prisma.news.findMany({
+            where,
+            include:{
+                author:{
+                    select:{
+                        name:true,
+                        email:true
+                    }
+                }
+            }
+            
+        })
     } catch (error) {
 
     }
