@@ -33,6 +33,14 @@ export const getNewsArea = async (req: Request, res: Response) => {
                 {division:{contains:division, mode:'insensitive'}}
             ]
         }
+
+        if (district) {
+            where.OR=[
+                {district:{contains:district,mode:'insensitive'}}
+            ]
+        }
+
+        
     } catch (error) {
 
     }
