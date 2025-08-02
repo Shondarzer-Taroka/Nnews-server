@@ -25,7 +25,14 @@ export const getNewsArea = async (req: Request, res: Response) => {
         const pageNumber=Number(page)|| 1
         const limitNumber=Number(limit)|| 10
         const skip=(pageNumber-1)*limitNumber
-        
+
+        const where:Prisma.NewsWhereInput={}
+
+        if (division) {
+            where.OR=[
+                {division:{contains:division, mode:'insensitive'}}
+            ]
+        }
     } catch (error) {
 
     }
