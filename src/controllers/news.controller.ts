@@ -1256,7 +1256,7 @@ export const getSearchNewsdpsk = async (req: Request, res: Response) => {
       skip,
       take: limitNumber
     });
-console.log(news);
+// console.log(news);
 
     res.json({
       news,
