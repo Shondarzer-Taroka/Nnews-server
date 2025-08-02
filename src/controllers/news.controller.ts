@@ -923,10 +923,6 @@ export const getCategorizedNews = async (req: Request, res: Response) => {
 
 
 
-/**
- *  GET /news/dashboard
- *  Query params: page, limit, search, category, subCategory
- */
 export const getNewsForDashboard = async (req: Request, res: Response) => {
   try {
     /* ---------- read query params ---------- */
