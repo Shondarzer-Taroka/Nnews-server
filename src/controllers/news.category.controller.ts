@@ -63,8 +63,11 @@ export const getNewsArea = async (req: Request, res: Response) => {
                         email:true
                     }
                 }
-            }
-            
+            },
+            orderBy:{updatedAt:'desc'},
+            skip,
+            take:limitNumber
+
         })
     } catch (error) {
 
