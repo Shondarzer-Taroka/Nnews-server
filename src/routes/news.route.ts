@@ -1,5 +1,6 @@
 import express from 'express';
 import { addManyData, createNews, deleteAllNews, deleteNews, getCategorizedNews, getHomePageNews, getLatestAndMostReadNews, getNews, getNewsForDashboard, getSearchNews, getSearchNewsdpsk, getSingleNews, getTitleForDescription, incrementNewsView, updateNews } from '../controllers/news.controller';
+import { getNewsArea } from '../controllers/news.another.controller';
 
 
 const router = express.Router();
@@ -19,7 +20,7 @@ router.get('/news-tabs', getLatestAndMostReadNews);
 router.patch('/incrementNewsView/:id/view', incrementNewsView);
 router.get('/search', getSearchNews);
 router.get('/searchdspk', getSearchNewsdpsk);
-
+router.get('/area',getNewsArea)
 
 
 export default router;

@@ -383,10 +383,14 @@ export const updateNews = async (req: Request, res: Response): Promise<any> => {
       imageUrl,
       imageSource,
       imageTitle,
-      location // Added location field
+      division,  // Changed from location to direct fields
+      district,
+      thana,
+      union,
+      postCode
     } = req.body;
 
-    console.log(req.body, 'upd');
+    console.log('Request Body:', req.body); // Detailed log
 
     if (!id) {
       return res.status(400).json({ error: 'News ID is required' });
@@ -401,7 +405,7 @@ export const updateNews = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).json({ error: 'News not found' });
     }
 
-    // Prepare update data with optional fields
+    // Prepare update data with proper location fields
     const updateData = {
       title: title || existingNews.title,
       content: content || existingNews.content,
@@ -412,13 +416,14 @@ export const updateNews = async (req: Request, res: Response): Promise<any> => {
       imageUrl: imageUrl || existingNews.imageUrl,
       imageSource: imageSource || existingNews.imageSource,
       imageTitle: imageTitle || existingNews.imageTitle,
-      // Only update location fields if they're provided
-      ...(location?.division && { division: location.division }),
-      ...(location?.district && { district: location.district }),
-      ...(location?.upazila && { thana: location.upazila }),
-      ...(location?.union && { union: location.union }),
-      ...(location?.postCode && { postCode: location.postCode }),
+      division: division !== undefined ? division : existingNews.division,
+      district: district !== undefined ? district : existingNews.district,
+      thana: thana !== undefined ? thana : existingNews.thana,
+      union: union !== undefined ? union : existingNews.union,
+      postCode: postCode !== undefined ? postCode : existingNews.postCode,
     };
+
+    console.log('Update Data:', updateData); // Log the data being sent to Prisma
 
     // Update news
     const updatedNews = await prisma.news.update({
