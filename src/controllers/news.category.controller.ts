@@ -52,7 +52,7 @@ export const getNewsArea = async (req: Request, res: Response) => {
             ]
         }
 
-        
+        const total=prisma.news.count({where})
     } catch (error) {
 
     }
