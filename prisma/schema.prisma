@@ -72,6 +72,8 @@ model User {
   Notification Notification[]
 }
 
+
+
 // model News {
 //   id          String   @id @default(uuid())
 //   title       String
@@ -85,6 +87,8 @@ model User {
 //   imageUrl    String?
 //   createdAt   DateTime @default(now())
 //   updatedAt   DateTime @updatedAt
+
+//   views       Int      @default(0) // for views this line
 
 //   authorId String
 //   author   User   @relation("UserNews", fields: [authorId], references: [id])
@@ -102,10 +106,14 @@ model News {
   keywords    String[]
   subKeywords String[]
   imageUrl    String?
+  division    String?
+  district    String?
+  thana       String?
+  union       String?
+  postCode    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  views       Int      @default(0) // for views this line
+  views       Int      @default(0)
 
   authorId String
   author   User   @relation("UserNews", fields: [authorId], references: [id])
