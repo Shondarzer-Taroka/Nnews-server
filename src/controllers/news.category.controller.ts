@@ -40,6 +40,12 @@ export const getNewsArea = async (req: Request, res: Response) => {
             ]
         }
 
+        if (thana) {
+            where.OR=[
+                {thana:{contains:thana,mode:'insensitive'}}
+            ]
+        }
+
         
     } catch (error) {
 
