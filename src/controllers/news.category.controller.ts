@@ -46,6 +46,12 @@ export const getNewsArea = async (req: Request, res: Response) => {
             ]
         }
 
+        if(union){
+            where.OR=[
+                {union:{contains:union,mode:'insensitive'}}
+            ]
+        }
+
         
     } catch (error) {
 
