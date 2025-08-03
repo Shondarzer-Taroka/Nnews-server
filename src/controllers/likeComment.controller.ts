@@ -270,8 +270,6 @@ export const getComments = async (req: Request, res: Response) => {
 
 
 
-
-
 export const updateComment = async (req: Request, res: Response) => {
   try {
     const { commentId } = req.params;

@@ -241,9 +241,6 @@ enum NotificationType {
 
 
 
-
-
-
 model Like {
   id        String   @id @default(uuid())
   userId    String?
