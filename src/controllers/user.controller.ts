@@ -59,9 +59,9 @@ export const login = (req: Request, res: Response) => {
       // secure: process.env.NODE_ENV === 'production',
       // sameSite: 'strict',
       // maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: 'lax',
+      sameSite: 'none',
       httpOnly: true,
-      secure: false, // true in production
+      secure: true, // true in production
       // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
       path: '/',
       //  domain: process.env.NODE_ENV === 'production' 

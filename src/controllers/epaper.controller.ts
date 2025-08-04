@@ -359,6 +359,14 @@ export const getAllEpapers = async (req: Request, res: Response) => {
   }
 };
 
+
+
+
+
+
+
+
+
 // Get a single e-paper by ID
 export const getEpaperById = async (req: Request, res: Response): Promise<any> => {
   try {

@@ -179,7 +179,7 @@ export const getAdminUnreadCount = async (req: Request, res: Response) => {
 
 // ... (keep your existing imports and other functions)
 
-export const markSingleAsRead = async (req: Request, res: Response) => {
+export const markSingleAsRead = async (req: Request, res: Response):Promise<any>=> {
   try {
     // First verify the notification exists and belongs to the user
     const notification = await prisma.notification.findUnique({
@@ -211,7 +211,7 @@ export const markSingleAsRead = async (req: Request, res: Response) => {
   }
 };
 
-export const markAllAsRead = async (req: Request, res: Response) => {
+export const markAllAsRead = async (req: Request, res: Response):Promise<any> => {
   try {
     const userId = (req.user as {id: string}).id;
     const isAdmin = (req.user as {role: string}).role === 'admin';

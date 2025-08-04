@@ -55,7 +55,7 @@ const login = (req, res) => {
         // maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: 'none',
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // true in production
+        secure: true, // true in production
         // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-site in production
         path: '/',
         //  domain: process.env.NODE_ENV === 'production' 

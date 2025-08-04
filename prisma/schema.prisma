@@ -14,35 +14,7 @@ datasource db {
   // directUrl = env("DIRECT_URL")
 }
 
-// prisma/schema.prisma
-// model User {
-//   id        String   @id @default(uuid())
-//   name      String
-//   email     String   @unique
-//   password  String
-//   phone     String
-//   address   String
-//   division  String
-//   district  String
-//   thana     String
-//   union     String
-//   postCode  String
-//   image     String?
-//   role      String   @default("user")
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
 
-//   // Relations
-//   news    News[]   @relation("UserNews")
-//   polls   Poll[]
-//   epapers EPaper[]
-
-//   opinions Opinion[] @relation("UserOpinions")
-
-//   Comment Comment[]
-
-//   Like Like[]
-// }
 
 model User {
   id        String   @id @default(uuid())
@@ -260,6 +232,7 @@ model Like {
   news      News?    @relation(fields: [newsId], references: [id])
   createdAt DateTime @default(now())
   userIp    String?
+  
 
   @@unique([userId, opinionId], name: "userId_opinionId")
   @@unique([userIp, opinionId], name: "userIp_opinionId")

@@ -733,6 +733,8 @@ export const getTitleForDescription = async (req: Request, res: Response) => {
 export const getCategorizedNews = async (req: Request, res: Response) => {
   try {
     const { category } = req.params
+    console.log(category,'cate params');
+    
     const skip = parseInt(req.query.skip as string) || 0
     const take = parseInt(req.query.take as string) || 15
 

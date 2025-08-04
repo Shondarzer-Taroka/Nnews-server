@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const news_controller_1 = require("../controllers/news.controller");
+const news_another_controller_1 = require("../controllers/news.another.controller");
 const router = express_1.default.Router();
 router.post('/create', news_controller_1.createNews);
 router.post('/addManyData', news_controller_1.addManyData);
@@ -21,4 +22,5 @@ router.get('/news-tabs', news_controller_1.getLatestAndMostReadNews);
 router.patch('/incrementNewsView/:id/view', news_controller_1.incrementNewsView);
 router.get('/search', news_controller_1.getSearchNews);
 router.get('/searchdspk', news_controller_1.getSearchNewsdpsk);
+router.get('/area', news_another_controller_1.getNewsArea);
 exports.default = router;

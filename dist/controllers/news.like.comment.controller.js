@@ -1,70 +1,18 @@
 "use strict";
+// // // backend/src/controller/likeComment.controller.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteComment = exports.updateComment = exports.getComments = exports.createComment = exports.getLikeStatus = exports.toggleLike = void 0;
-// // // // backend/src/controller/likeComment.controller.ts
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-var EntityType;
-(function (EntityType) {
-    EntityType["OPINION"] = "opinion";
-    EntityType["NEWS"] = "news";
-})(EntityType || (EntityType = {}));
 function isValidUUID(uuid) {
     const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     return regex.test(uuid);
 }
-// Helper function to validate entity
-async function validateEntity(entityId, entityType) {
-    if (entityType === EntityType.OPINION) {
-        return await prisma.opinion.findUnique({
-            where: { id: entityId },
-            select: { id: true }
-        });
-    }
-    else if (entityType === EntityType.NEWS) {
-        return await prisma.news.findUnique({
-            where: { id: entityId },
-            select: { id: true }
-        });
-    }
-    return null;
-}
-// Helper function to get like count
-async function getLikeCount(entityId, entityType) {
-    return await prisma.like.count({
-        where: {
-            [entityType === EntityType.OPINION ? 'opinionId' : 'newsId']: entityId
-        }
-    });
-}
-// Helper function to get user like status (Type-safe fix)
-async function getUserLikeStatus(userId, entityId, entityType) {
-    if (entityType === EntityType.OPINION) {
-        return await prisma.like.findUnique({
-            where: {
-                userId_opinionId: {
-                    userId,
-                    opinionId: entityId
-                }
-            }
-        });
-    }
-    else {
-        return await prisma.like.findUnique({
-            where: {
-                userId_newsId: {
-                    userId,
-                    newsId: entityId
-                }
-            }
-        });
-    }
-}
-// Toggle like (fixed)
 const toggleLike = async (req, res) => {
     try {
-        const { entityId, entityType } = req.params;
+        const { opinionId } = req.params;
         const userId = req.user?.id;
+        console.log(userId, 'llik');
         if (!userId) {
             return res.status(401).json({
                 success: false,
@@ -72,31 +20,42 @@ const toggleLike = async (req, res) => {
                 message: 'You must be logged in to like'
             });
         }
-        if (!entityId || !isValidUUID(entityId)) {
+        if (!opinionId || !isValidUUID(opinionId)) {
             return res.status(400).json({
                 success: false,
-                error: 'Invalid entity ID'
+                error: 'Invalid opinion ID'
             });
         }
-        if (!Object.values(EntityType).includes(entityType)) {
-            return res.status(400).json({
-                success: false,
-                error: 'Invalid entity type'
-            });
-        }
-        const entityExists = await validateEntity(entityId, entityType);
-        if (!entityExists) {
+        const opinionExists = await prisma.opinion.findUnique({
+            where: { id: opinionId },
+            select: { id: true }
+        });
+        if (!opinionExists) {
             return res.status(404).json({
                 success: false,
-                error: 'Entity not found'
+                error: 'Opinion not found'
             });
         }
-        const existingLike = await getUserLikeStatus(userId, entityId, entityType);
+        // Check for existing like by userId only
+        const existingLike = await prisma.like.findUnique({
+            where: {
+                userId_opinionId: {
+                    userId,
+                    opinionId
+                }
+            }
+        });
         if (existingLike) {
+            // Unlike
             await prisma.like.delete({
-                where: { id: existingLike.id }
+                where: {
+                    userId_opinionId: {
+                        userId,
+                        opinionId
+                    }
+                }
             });
-            const likeCount = await getLikeCount(entityId, entityType);
+            const likeCount = await prisma.like.count({ where: { opinionId } });
             return res.json({
                 success: true,
                 liked: false,
@@ -105,13 +64,14 @@ const toggleLike = async (req, res) => {
             });
         }
         else {
+            // Like
             await prisma.like.create({
                 data: {
                     userId,
-                    [entityType === EntityType.OPINION ? 'opinionId' : 'newsId']: entityId
+                    opinionId
                 }
             });
-            const likeCount = await getLikeCount(entityId, entityType);
+            const likeCount = await prisma.like.count({ where: { opinionId } });
             return res.json({
                 success: true,
                 liked: true,
@@ -130,34 +90,37 @@ const toggleLike = async (req, res) => {
     }
 };
 exports.toggleLike = toggleLike;
-// Generic get like status
 const getLikeStatus = async (req, res) => {
     try {
-        const { entityId, entityType } = req.params;
+        const { opinionId } = req.params;
         const userId = req.user?.id;
-        if (!entityId || !isValidUUID(entityId)) {
+        if (!opinionId || !isValidUUID(opinionId)) {
             return res.status(400).json({
                 success: false,
-                error: 'Invalid entity ID'
+                error: 'Invalid opinion ID'
             });
         }
-        if (!Object.values(EntityType).includes(entityType)) {
-            return res.status(400).json({
-                success: false,
-                error: 'Invalid entity type'
-            });
-        }
-        const entityExists = await validateEntity(entityId, entityType);
-        if (!entityExists) {
+        const opinionExists = await prisma.opinion.findUnique({
+            where: { id: opinionId },
+            select: { id: true }
+        });
+        if (!opinionExists) {
             return res.status(404).json({
                 success: false,
-                error: 'Entity not found'
+                error: 'Opinion not found'
             });
         }
-        const likeCount = await getLikeCount(entityId, entityType);
+        const likeCount = await prisma.like.count({ where: { opinionId } });
         let liked = false;
         if (userId) {
-            const userLike = await getUserLikeStatus(userId, entityId, entityType);
+            const userLike = await prisma.like.findUnique({
+                where: {
+                    userId_opinionId: {
+                        userId,
+                        opinionId
+                    }
+                }
+            });
             liked = !!userLike;
         }
         return res.json({
@@ -177,17 +140,14 @@ const getLikeStatus = async (req, res) => {
     }
 };
 exports.getLikeStatus = getLikeStatus;
-// Generic create comment
 const createComment = async (req, res) => {
     try {
-        const { entityId, entityType } = req.params;
+        const { opinionId } = req.params;
         const { content } = req.body;
-        // Validate entity ID
-        if (!entityId || !isValidUUID(entityId)) {
-            return res.status(400).json({ error: 'Invalid entity ID' });
-        }
-        if (!Object.values(EntityType).includes(entityType)) {
-            return res.status(400).json({ error: 'Invalid entity type' });
+        console.log(opinionId, content, 'op comee');
+        // Validate opinion ID
+        if (!opinionId || !isValidUUID(opinionId)) {
+            return res.status(400).json({ error: 'Invalid opinion ID' });
         }
         // Validate content
         if (!content || typeof content !== 'string' || content.trim().length === 0) {
@@ -200,17 +160,20 @@ const createComment = async (req, res) => {
         if (!req.user?.id) {
             return res.status(401).json({ error: 'Authentication required' });
         }
-        // Check if entity exists
-        const entityExists = await validateEntity(entityId, entityType);
-        if (!entityExists) {
-            return res.status(404).json({ error: 'Entity not found' });
+        // Check if opinion exists
+        const opinionExists = await prisma.opinion.findUnique({
+            where: { id: opinionId },
+            select: { id: true }
+        });
+        if (!opinionExists) {
+            return res.status(404).json({ error: 'Opinion not found' });
         }
         // Create comment
         const comment = await prisma.comment.create({
             data: {
                 content: content.trim(),
                 userId: req.user?.id,
-                [entityType === EntityType.OPINION ? 'opinionId' : 'newsId']: entityId
+                opinionId
             },
             include: {
                 user: {
@@ -222,9 +185,7 @@ const createComment = async (req, res) => {
                 }
             }
         });
-        const commentCount = await prisma.comment.count({
-            where: { [entityType === EntityType.OPINION ? 'opinionId' : 'newsId']: entityId }
-        });
+        const commentCount = await prisma.comment.count({ where: { opinionId } });
         res.status(201).json({ comment, commentCount });
     }
     catch (error) {
@@ -233,19 +194,15 @@ const createComment = async (req, res) => {
     }
 };
 exports.createComment = createComment;
-// Generic get comments
 const getComments = async (req, res) => {
     try {
-        const { entityId, entityType } = req.params;
+        const { opinionId } = req.params;
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 5;
         const skip = (page - 1) * limit;
-        // Validate entity ID
-        if (!entityId || !isValidUUID(entityId)) {
-            return res.status(400).json({ error: 'Invalid entity ID' });
-        }
-        if (!Object.values(EntityType).includes(entityType)) {
-            return res.status(400).json({ error: 'Invalid entity type' });
+        // Validate opinion ID
+        if (!opinionId || !isValidUUID(opinionId)) {
+            return res.status(400).json({ error: 'Invalid opinion ID' });
         }
         // Validate pagination
         if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1 || limit > 50) {
@@ -253,7 +210,7 @@ const getComments = async (req, res) => {
         }
         // Get comments
         const comments = await prisma.comment.findMany({
-            where: { [entityType === EntityType.OPINION ? 'opinionId' : 'newsId']: entityId },
+            where: { opinionId },
             skip,
             take: limit,
             orderBy: { createdAt: 'desc' },
@@ -267,9 +224,7 @@ const getComments = async (req, res) => {
                 }
             }
         });
-        const totalComments = await prisma.comment.count({
-            where: { [entityType === EntityType.OPINION ? 'opinionId' : 'newsId']: entityId }
-        });
+        const totalComments = await prisma.comment.count({ where: { opinionId } });
         const hasMore = skip + limit < totalComments;
         res.json({
             comments,
@@ -284,12 +239,12 @@ const getComments = async (req, res) => {
     }
 };
 exports.getComments = getComments;
-// Generic update comment
 const updateComment = async (req, res) => {
     try {
         const { commentId } = req.params;
         const { content } = req.body;
         const userId = req.user?.id;
+        console.log(userId, 'k');
         // Validate comment ID
         if (!commentId || !isValidUUID(commentId)) {
             return res.status(400).json({ error: 'Invalid comment ID' });
@@ -304,8 +259,9 @@ const updateComment = async (req, res) => {
         // Check if comment exists and belongs to user
         const existingComment = await prisma.comment.findUnique({
             where: { id: commentId },
-            select: { id: true, userId: true, opinionId: true, newsId: true }
+            select: { id: true, userId: true, opinionId: true }
         });
+        console.log(existingComment, 'up com');
         if (!existingComment) {
             return res.status(404).json({ error: 'Comment not found' });
         }
@@ -327,10 +283,8 @@ const updateComment = async (req, res) => {
             }
         });
         // Get updated comment count
-        const entityField = existingComment.opinionId ? 'opinionId' : 'newsId';
-        const entityId = existingComment[entityField];
         const commentCount = await prisma.comment.count({
-            where: { [entityField]: entityId }
+            where: { opinionId: existingComment.opinionId }
         });
         res.json({
             comment: updatedComment,
@@ -343,7 +297,6 @@ const updateComment = async (req, res) => {
     }
 };
 exports.updateComment = updateComment;
-// Generic delete comment
 const deleteComment = async (req, res) => {
     try {
         const { commentId } = req.params;
@@ -355,7 +308,7 @@ const deleteComment = async (req, res) => {
         // Check if comment exists and belongs to user
         const existingComment = await prisma.comment.findUnique({
             where: { id: commentId },
-            select: { id: true, userId: true, opinionId: true, newsId: true }
+            select: { id: true, userId: true, opinionId: true }
         });
         if (!existingComment) {
             return res.status(404).json({ error: 'Comment not found' });
@@ -368,10 +321,8 @@ const deleteComment = async (req, res) => {
             where: { id: commentId }
         });
         // Get updated comment count
-        const entityField = existingComment.opinionId ? 'opinionId' : 'newsId';
-        const entityId = existingComment[entityField];
         const commentCount = await prisma.comment.count({
-            where: { [entityField]: entityId }
+            where: { opinionId: existingComment.opinionId }
         });
         res.json({
             success: true,

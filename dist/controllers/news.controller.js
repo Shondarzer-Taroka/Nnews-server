@@ -4,10 +4,9 @@ exports.getSearchNewsdpsk = exports.getSearchNews = exports.incrementNewsView = 
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createNews = async (req, res) => {
-    console.log(req.body, 'news creatae');
+    console.log(req.body, 'news create');
     try {
-        const { title, content, category, subCategory, keywords, subKeywords, imageUrl, imageSource, imageTitle, author } = req.body;
-        console.log(req.body);
+        const { title, content, category, subCategory, keywords, subKeywords, imageUrl, imageSource, imageTitle, author, location } = req.body;
         // Validate required fields
         if (!title || !content || !category || !subCategory || !author?.email) {
             return res.status(400).json({ error: 'Missing required fields' });
@@ -19,7 +18,7 @@ const createNews = async (req, res) => {
         if (!existingAuthor) {
             return res.status(404).json({ error: 'Author not found' });
         }
-        // Create news with all the fields
+        // Create news with all the fields including optional location
         const news = await prisma.news.create({
             data: {
                 title,
@@ -28,10 +27,16 @@ const createNews = async (req, res) => {
                 subCategory,
                 keywords,
                 subKeywords,
-                imageSource,
-                imageTitle,
+                imageSource: imageSource || 'Unknown',
+                imageTitle: imageTitle || 'Untitled',
                 imageUrl: imageUrl || null,
                 authorId: existingAuthor.id,
+                // Add location fields if they exist
+                ...(location?.division && { division: location.division }),
+                ...(location?.district && { district: location.district }),
+                ...(location?.upazila && { thana: location.upazila }),
+                ...(location?.union && { union: location.union }),
+                ...(location?.postCode && { postCode: location.postCode }),
             },
             include: {
                 author: {
@@ -81,18 +86,25 @@ exports.getNews = getNews;
 const getSingleNews = async (req, res) => {
     try {
         const { id } = req.params;
+        const userId = req.query.userId; // Optional: for isLiked logic
         if (!id) {
             return res.status(400).json({ error: 'News ID is required' });
         }
-        console.log(id);
         const news = await prisma.news.findUnique({
             where: { id },
             include: {
                 author: {
                     select: {
+                        id: true,
                         name: true,
                         email: true,
                         image: true
+                    }
+                },
+                _count: {
+                    select: {
+                        Like: true,
+                        Comment: true
                     }
                 }
             }
@@ -100,7 +112,25 @@ const getSingleNews = async (req, res) => {
         if (!news) {
             return res.status(404).json({ error: 'News not found' });
         }
-        return res.status(200).json({ news });
+        // Check if user liked the news
+        let isLiked = false;
+        if (userId) {
+            const liked = await prisma.like.findFirst({
+                where: {
+                    newsId: id,
+                    userId: userId
+                }
+            });
+            isLiked = !!liked;
+        }
+        // Construct custom response
+        const formattedNews = {
+            ...news,
+            likesCount: news._count.Like,
+            commentsCount: news._count.Comment,
+            isLiked
+        };
+        return res.status(200).json(formattedNews);
     }
     catch (error) {
         console.error('Error fetching news:', error);
@@ -143,8 +173,9 @@ const updateNews = async (req, res) => {
     try {
         const { id } = req.params;
         console.log(id, 'up news params id');
-        const { title, content, category, subCategory, keywords, subKeywords, imageUrl } = req.body;
-        console.log(req.body, 'upd');
+        const { title, content, category, subCategory, keywords, subKeywords, imageUrl, imageSource, imageTitle, division, // Changed from location to direct fields
+        district, thana, union, postCode } = req.body;
+        console.log('Request Body:', req.body); // Detailed log
         if (!id) {
             return res.status(400).json({ error: 'News ID is required' });
         }
@@ -155,18 +186,28 @@ const updateNews = async (req, res) => {
         if (!existingNews) {
             return res.status(404).json({ error: 'News not found' });
         }
+        // Prepare update data with proper location fields
+        const updateData = {
+            title: title || existingNews.title,
+            content: content || existingNews.content,
+            category: category || existingNews.category,
+            subCategory: subCategory || existingNews.subCategory,
+            keywords: keywords || existingNews.keywords,
+            subKeywords: subKeywords || existingNews.subKeywords,
+            imageUrl: imageUrl || existingNews.imageUrl,
+            imageSource: imageSource || existingNews.imageSource,
+            imageTitle: imageTitle || existingNews.imageTitle,
+            division: division !== undefined ? division : existingNews.division,
+            district: district !== undefined ? district : existingNews.district,
+            thana: thana !== undefined ? thana : existingNews.thana,
+            union: union !== undefined ? union : existingNews.union,
+            postCode: postCode !== undefined ? postCode : existingNews.postCode,
+        };
+        console.log('Update Data:', updateData); // Log the data being sent to Prisma
         // Update news
         const updatedNews = await prisma.news.update({
             where: { id },
-            data: {
-                title: title || existingNews.title,
-                content: content || existingNews.content,
-                category: category || existingNews.category,
-                subCategory: subCategory || existingNews.subCategory,
-                keywords: keywords || existingNews.keywords,
-                subKeywords: subKeywords || existingNews.subKeywords,
-                imageUrl: imageUrl || existingNews.imageUrl
-            },
+            data: updateData,
             include: {
                 author: {
                     select: {
@@ -324,19 +365,6 @@ const getHomePageNews = async (req, res) => {
             take: 8,
             orderBy: { createdAt: 'desc' },
         });
-        // const opinions = await prisma.opinion.findMany({
-        //   where: {
-        //     OR: [
-        //       { category: 'মতামত' },
-        //       { subCategory: 'মতামত' },
-        //     ]
-        //   },
-        //   include: {
-        //     author: { select: { id: true, name: true, image: true, role: true } }
-        //   },
-        //   take: 5,
-        //   orderBy: { createdAt: 'desc' },
-        // });
         const opinions = await prisma.opinion.findMany({
             where: {
                 OR: [
@@ -357,8 +385,8 @@ const getHomePageNews = async (req, res) => {
                 },
                 _count: {
                     select: {
-                        Like: true,
-                        Comment: true,
+                        likes: true,
+                        comments: true,
                     },
                 },
             },
@@ -414,7 +442,7 @@ const getHomePageNews = async (req, res) => {
             };
         });
         const funCategories = ['স্বাস্থ্য', 'ভ্রমণ', 'কৃষি', 'প্রযুক্তি', 'বিজ্ঞান', 'জীবনধারা', 'প্রত্নতত্ত্ব'];
-        const featuredCategoryNames = ['স্বাস্থ্য', 'ভ্রমণ', 'জীবনধারা']; // শুধু এখান থেকেই data নেবো
+        const featuredCategoryNames = ['স্বাস্থ্য', 'ভ্রমণ', 'জীবনধারা'];
         // Step 1: Get all news from fun categories
         const allFunNews = await prisma.news.findMany({
             where: {
@@ -448,7 +476,7 @@ const getHomePageNews = async (req, res) => {
         const remainingForRandom = allFunNews.filter(news => !categoryStats.find(item => item.id === news.id));
         const randomPool = remainingForRandom.length > 0 ? remainingForRandom : allFunNews;
         const randomNews = randomPool[Math.floor(Math.random() * randomPool.length)];
-        // 🆕 Step 5: Custom featuredCategories
+        //  Step 5: Custom featuredCategories
         function getRandomItemsFromCategory(cat, count) {
             const items = allFunNews.filter(news => news.category === cat);
             const shuffled = [...items].sort(() => 0.5 - Math.random());
@@ -581,10 +609,6 @@ const getCategorizedNews = async (req, res) => {
     }
 };
 exports.getCategorizedNews = getCategorizedNews;
-/**
- *  GET /news/dashboard
- *  Query params: page, limit, search, category, subCategory
- */
 const getNewsForDashboard = async (req, res) => {
     try {
         /* ---------- read query params ---------- */
@@ -837,7 +861,7 @@ const getSearchNewsdpsk = async (req, res) => {
             skip,
             take: limitNumber
         });
-        console.log(news);
+        // console.log(news);
         res.json({
             news,
             total,
