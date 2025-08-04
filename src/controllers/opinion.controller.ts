@@ -136,6 +136,7 @@ export const getRelatedOpinions = async (req: Request, res: Response): Promise<a
     const opinions = await prisma.opinion.findMany({
       take: 4,
       where: {
+        status:'APPROVED',
         NOT: { id: currentId as string }
       },
       orderBy: { createdAt: 'desc' },
