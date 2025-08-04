@@ -117,6 +117,10 @@ model News {
 
   authorId String
   author   User   @relation("UserNews", fields: [authorId], references: [id])
+
+  Comment Comment[]
+
+  Like Like[]
 }
 
 
@@ -241,17 +245,26 @@ enum NotificationType {
 
 
 
+
+
+
+
+
 model Like {
   id        String   @id @default(uuid())
   userId    String?
   user      User?    @relation(fields: [userId], references: [id])
-  opinionId String
-  opinion   Opinion  @relation(fields: [opinionId], references: [id])
+  opinionId String?
+  opinion   Opinion? @relation(fields: [opinionId], references: [id])
+  newsId    String?
+  news      News?    @relation(fields: [newsId], references: [id])
   createdAt DateTime @default(now())
   userIp    String?
 
   @@unique([userId, opinionId], name: "userId_opinionId")
   @@unique([userIp, opinionId], name: "userIp_opinionId")
+  @@unique([userId, newsId], name: "userId_newsId")
+  @@unique([userIp, newsId], name: "userIp_newsId")
 }
 
 model Comment {
@@ -259,8 +272,11 @@ model Comment {
   content   String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  opinionId String
-  opinion   Opinion  @relation(fields: [opinionId], references: [id])
+  opinionId String?
+  opinion   Opinion? @relation(fields: [opinionId], references: [id])
+  newsId    String?
+  news      News?    @relation(fields: [newsId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
