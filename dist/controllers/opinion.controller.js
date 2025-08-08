@@ -120,6 +120,7 @@ const getRelatedOpinions = async (req, res) => {
         const opinions = await prisma.opinion.findMany({
             take: 4,
             where: {
+                status: 'APPROVED',
                 NOT: { id: currentId }
             },
             orderBy: { createdAt: 'desc' },

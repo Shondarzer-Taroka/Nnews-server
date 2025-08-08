@@ -294,14 +294,13 @@ const getHomePageNews = async (req, res) => {
         const nationalNews = await prisma.news.findMany({
             where: {
                 OR: [
-                    { subCategory: 'জাতীয়' },
-                    { category: 'জাতীয়' }
+                    { category: 'জাতীয়' },
+                    { subCategory: 'জাতীয়' }
                 ]
             },
-            orderBy: { createdAt: 'desc' },
+            orderBy: { updatedAt: 'desc' },
             take: 5,
         });
-        // Whole Country (সারাদেশ) - latest 9
         const wholeCountry = await prisma.news.findMany({
             where: {
                 OR: [
@@ -309,10 +308,9 @@ const getHomePageNews = async (req, res) => {
                     { subCategory: 'সারাদেশ' },
                 ]
             },
-            orderBy: { createdAt: 'desc' },
+            orderBy: { updatedAt: 'desc' },
             take: 11,
         });
-        // Political News (রাজনীতি) - latest 4
         const politicalNews = await prisma.news.findMany({
             where: {
                 OR: [
@@ -323,7 +321,6 @@ const getHomePageNews = async (req, res) => {
             orderBy: { createdAt: 'desc' },
             take: 7,
         });
-        // International News (আন্তর্জাতিক) - latest 6
         const internationalNews = await prisma.news.findMany({
             where: {
                 OR: [
@@ -334,7 +331,6 @@ const getHomePageNews = async (req, res) => {
             orderBy: { createdAt: 'desc' },
             take: 6,
         });
-        // Entertainment News (বিনোদন) - latest 7
         const entertainment = await prisma.news.findMany({
             where: {
                 OR: [
@@ -345,7 +341,6 @@ const getHomePageNews = async (req, res) => {
             orderBy: { createdAt: 'desc' },
             take: 7,
         });
-        // Encouraging (উৎসাহ) - all matching
         const encouraging = await prisma.news.findMany({
             where: {
                 OR: [
@@ -367,6 +362,7 @@ const getHomePageNews = async (req, res) => {
         });
         const opinions = await prisma.opinion.findMany({
             where: {
+                status: 'APPROVED',
                 OR: [
                     { category: 'মতামত' },
                     { subCategory: 'মতামত' },
@@ -563,6 +559,7 @@ exports.getTitleForDescription = getTitleForDescription;
 const getCategorizedNews = async (req, res) => {
     try {
         const { category } = req.params;
+        // console.log(category,'cate params');
         const skip = parseInt(req.query.skip) || 0;
         const take = parseInt(req.query.take) || 15;
         const decodedCategory = req.params.category;

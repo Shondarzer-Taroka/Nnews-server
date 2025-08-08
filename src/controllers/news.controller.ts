@@ -415,15 +415,15 @@ export const getHomePageNews = async (req: Request, res: Response) => {
     const nationalNews = await prisma.news.findMany({
       where: {
         OR: [
-          { subCategory: 'জাতীয়' },
-          { category: 'জাতীয়' }
+          { category: 'জাতীয়' },
+          { subCategory: 'জাতীয়' }
         ]
       },
       orderBy: { createdAt: 'desc' },
       take: 5,
     });
 
-    // Whole Country (সারাদেশ) - latest 9
+    
     const wholeCountry = await prisma.news.findMany({
       where: {
         OR: [
@@ -431,11 +431,11 @@ export const getHomePageNews = async (req: Request, res: Response) => {
           { subCategory: 'সারাদেশ' },
         ]
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { updatedAt: 'desc' },
       take: 11,
     });
 
-    // Political News (রাজনীতি) - latest 4
+    
     const politicalNews = await prisma.news.findMany({
       where: {
         OR: [
@@ -447,7 +447,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       take: 7,
     });
 
-    // International News (আন্তর্জাতিক) - latest 6
+    
     const internationalNews = await prisma.news.findMany({
       where: {
         OR: [
@@ -459,7 +459,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       take: 6,
     });
 
-    // Entertainment News (বিনোদন) - latest 7
+
     const entertainment = await prisma.news.findMany({
       where: {
         OR: [
@@ -471,7 +471,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       take: 7,
     });
 
-    // Encouraging (উৎসাহ) - all matching
+    
     const encouraging = await prisma.news.findMany({
       where: {
         OR: [
@@ -585,7 +585,8 @@ export const getHomePageNews = async (req: Request, res: Response) => {
         headlines: newsArray.map(news => ({
           id: news.id,
           category: news.category,
-          title: news.title
+          title: news.title,
+          imageUrl:news.imageUrl
         })),
       };
     });
