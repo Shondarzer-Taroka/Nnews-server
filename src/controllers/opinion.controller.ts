@@ -26,8 +26,8 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
         },
         _count: {
           select: {
-            likes: true,    // Singular model name as per your schema
-            comments: true  // Singular model name as per your schema
+            likes: true,   
+            comments: true  
           }
         }
       }
@@ -54,8 +54,8 @@ export const getOpinionById = async (req: Request, res: Response): Promise<any> 
       message: 'Opinion retrieved successfully',
       data: {
         ...opinion,
-        likesCount: opinion._count?.likes || 0,      // Use singular model name
-        commentsCount: opinion._count?.comments || 0, // Use singular model name
+        likesCount: opinion._count?.likes || 0,      
+        commentsCount: opinion._count?.comments || 0, 
         isLiked
       }
     });
@@ -257,22 +257,6 @@ export const deleteOpinion = async (req: Request, res: Response): Promise<any> =
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const getAllOpinions = async (req: Request, res: Response):Promise<any> => {
   try {
     const { status, page = 1, limit = 10 } = req.query;
@@ -465,9 +449,6 @@ export const createOpinion = async (req: Request, res: Response):Promise<any> =>
     });
   }
 };
-
-
-
 
 
 
