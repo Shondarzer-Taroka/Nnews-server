@@ -52,11 +52,6 @@ export const addManyData = async (req: Request, res: Response):Promise<any> => {
 
 
 
-
-
-
-
-
 // Create a new e-paper
 export const createEpaper = async (req: AuthenticatedRequest, res: Response) => {
   try {
@@ -136,11 +131,6 @@ export const createEpaper = async (req: AuthenticatedRequest, res: Response) => 
     res.status(500).json({ error: 'Failed to create e-paper' });
   }
 };
-
-
-
-
-
 
 
 
@@ -248,18 +238,6 @@ export const updateEpaper = async (req: AuthenticatedRequest, res: Response): Pr
     res.status(500).json({ error: 'Failed to update e-paper' });
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Delete an e-paper
