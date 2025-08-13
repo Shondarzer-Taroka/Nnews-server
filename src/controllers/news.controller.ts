@@ -61,7 +61,7 @@ export const createNews = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).json({ error: 'Author not found' });
     }
 
-    // Create news with all the fields including optional location
+    // Create news
     const news = await prisma.news.create({
       data: {
         title,
@@ -137,7 +137,7 @@ export const getNews = async (req: Request, res: Response): Promise<any> => {
 export const getSingleNews = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
-    const userId = req.query.userId as string | undefined; // Optional: for isLiked logic
+    const userId = req.query.userId as string | undefined; 
 
     if (!id) {
       return res.status(400).json({ error: 'News ID is required' });
@@ -250,14 +250,14 @@ export const updateNews = async (req: Request, res: Response): Promise<any> => {
       imageUrl,
       imageSource,
       imageTitle,
-      division,  // Changed from location to direct fields
+      division, 
       district,
       thana,
       union,
       postCode
     } = req.body;
 
-    console.log('Request Body:', req.body); // Detailed log
+    console.log('Request Body:', req.body); 
 
     if (!id) {
       return res.status(400).json({ error: 'News ID is required' });
@@ -290,7 +290,7 @@ export const updateNews = async (req: Request, res: Response): Promise<any> => {
       postCode: postCode !== undefined ? postCode : existingNews.postCode,
     };
 
-    console.log('Update Data:', updateData); // Log the data being sent to Prisma
+    console.log('Update Data:', updateData); 
 
     // Update news
     const updatedNews = await prisma.news.update({
@@ -336,7 +336,7 @@ export const addManyData = async (req: Request, res: Response): Promise<any> => 
 
     // Ensure no relation objects like `author` are passed
     const result = await prisma.news.createMany({
-      data: newsItems.map(({ author, ...rest }) => rest), // safely exclude `author` if mistakenly present
+      data: newsItems.map(({ author, ...rest }) => rest), 
       skipDuplicates: true,
     });
 
@@ -595,7 +595,7 @@ export const getHomePageNews = async (req: Request, res: Response) => {
     const funCategories = ['স্বাস্থ্য', 'ভ্রমণ', 'কৃষি', 'প্রযুক্তি', 'বিজ্ঞান', 'জীবনধারা', 'প্রত্নতত্ত্ব'];
     const featuredCategoryNames = ['স্বাস্থ্য', 'ভ্রমণ', 'জীবনধারা']; 
 
-    // Step 1: Get all news from fun categories
+    // Step 1:
     const allFunNews = await prisma.news.findMany({
       where: {
         category: { in: funCategories },
@@ -610,13 +610,13 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       },
     });
 
-    // Step 2: Count per category
+    // Step 2 
     const categoryCounts: Record<string, number> = {};
     for (const cat of funCategories) {
       categoryCounts[cat] = allFunNews.filter(news => news.category === cat).length;
     }
 
-    // Step 3: Pick 1 random item from each category
+    // Step 3
     const categoryStats = funCategories.map(cat => {
       const itemsInCat = allFunNews.filter(news => news.category === cat);
       const randomItem = itemsInCat[Math.floor(Math.random() * itemsInCat.length)];
@@ -628,14 +628,14 @@ export const getHomePageNews = async (req: Request, res: Response) => {
       };
     });
 
-    // Step 4: Pick one additional randomNews (excluding already selected)
+    // Step 4
     const remainingForRandom = allFunNews.filter(
       news => !categoryStats.find(item => item.id === news.id)
     );
     const randomPool = remainingForRandom.length > 0 ? remainingForRandom : allFunNews;
     const randomNews = randomPool[Math.floor(Math.random() * randomPool.length)];
 
-    //  Step 5: Custom featuredCategories
+    //  Step 5
     function getRandomItemsFromCategory(cat: string, count: number) {
       const items = allFunNews.filter(news => news.category === cat);
       const shuffled = [...items].sort(() => 0.5 - Math.random());
@@ -817,7 +817,7 @@ export const getNewsForDashboard = async (req: Request, res: Response) => {
       });
 
     if (category)
-      filters.push({ category });          // equals string OK
+      filters.push({ category });        
 
     if (subCategory)
       filters.push({ subCategory });
