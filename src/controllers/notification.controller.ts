@@ -38,47 +38,6 @@ export const getUnreadCount = async (req: Request, res: Response) => {
   }
 };
 
-// export const markAllAsRead = async (req: Request, res: Response) => {
-//   try {
-//     await prisma.notification.updateMany({
-//       where: {
-//       userId: (req.user as {id:string}).id,
-//         read: false
-//       },
-//       data: {
-//         read: true
-//       }
-//     });
-
-//     res.json({ success: true });
-//   } catch (error) {
-//     console.error('Error marking notifications as read:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-// export const markSingleAsRead = async (req: Request, res: Response) => {
-//   try {
-//     const notification = await prisma.notification.update({
-//       where: {
-//         id: req.params.id,
-//             userId: (req.user as {id:string}).id,
-//       },
-//       data: {
-//         read: true
-//       }
-//     });
-
-//     if (!notification) {
-//       return res.status(404).json({ error: 'Notification not found' });
-//     }
-
-//     res.json({ success: true });
-//   } catch (error) {
-//     console.error('Error marking notification as read:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
 
 export const getUserNotificationsById = async (req: Request, res: Response) => {
   try {
@@ -167,17 +126,6 @@ export const getAdminUnreadCount = async (req: Request, res: Response) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-// ... (keep your existing imports and other functions)
 
 export const markSingleAsRead = async (req: Request, res: Response):Promise<any>=> {
   try {
