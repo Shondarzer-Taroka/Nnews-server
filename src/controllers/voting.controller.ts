@@ -312,83 +312,6 @@ interface PollResponse {
 
 
 
-
-
-
-
-
-
-
-
-
-// export const getLatestPoll = async (req: Request, res: Response) :Promise<any>=> {
-//     try {
-//         // Get the most recent poll (either newly created or updated)
-//         const latestPoll = await prisma.poll.findFirst({
-//             orderBy: {
-//                 updatedAt: 'desc'
-//             },
-//             include: {
-//                 options: true,
-//                 user: {
-//                     select: {
-//                         id: true,
-//                         name: true,
-//                         email: true,
-//                         image: true
-//                     }
-//                 }
-//             }
-//         });
-
-//         if (!latestPoll) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'No polls found'
-//             });
-//         }
-
-//         // Format the response
-//         const response: PollResponse = {
-//             id: latestPoll.id,
-//             question: latestPoll.question,
-//             endDate: latestPoll.endDate,
-//             createdAt: latestPoll.createdAt,
-//             updatedAt: latestPoll.updatedAt,
-//             options: latestPoll.options.map(option => ({
-//                 id: option.id,
-//                 text: option.text
-//             })),
-//             user: {
-//                 id: latestPoll.user.id,
-//                 name: latestPoll.user.name,
-//                 email: latestPoll.user.email,
-//                 image: latestPoll.user.image
-//             }
-//         };
-
-//         return res.status(200).json({
-//             success: true,
-//             data: response
-//         });
-
-//     } catch (error) {
-//         console.error('Error fetching latest poll:', error);
-//         return res.status(500).json({
-//             success: false,
-//             message: 'Internal server error',
-//             error: error instanceof Error ? error.message : 'Unknown error'
-//         });
-//     }
-// };
-
-
-
-
-
-
-
-
 export const getLatestPoll = async (req: Request, res: Response): Promise<any> => {
     try {
         // Get the most recent poll with options and their vote counts
@@ -457,18 +380,6 @@ export const getLatestPoll = async (req: Request, res: Response): Promise<any> =
         });
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

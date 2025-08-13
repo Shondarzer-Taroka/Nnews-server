@@ -27,7 +27,7 @@ app.use(cookieParser());
 // ✅ Correct CORS for cross-origin cookies
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://dailytnnewsbd.vercel.app'],
+    origin: ['http://localhost:3000','http://localhost:3001', 'https://dailytnnewsbd.vercel.app'],
     credentials: true,
   })
 );
